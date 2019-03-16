@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布会管理系统</title>
+</head>
+<h3 style="text-align:center;color:blue">发布会登录系统</h3>
+<body>
+    <form style="text-align: center" method="post" action="/login_action/">
+        <div>
+            <input name="username" type="text" placeholder="请输入用户名"><br>
+        </div>
+        <div>
+            <input name="password" type="password" placeholder="请输入密码"><br>
+        </div><br>
+        <div style="color: red;">
+            {{ error }}<br><br>
+        </div>
+        <div>
+            <button id="bn" type="submit">登录</button>
+        </div>
+        {% csrf_token %}
+    </form>
+</body>
+</html>
