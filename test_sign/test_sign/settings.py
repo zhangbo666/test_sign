@@ -74,12 +74,41 @@ WSGI_APPLICATION = 'test_sign.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# sqlite3 config
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# mysql config
+# django2.0可以用django1.0的 pymysql、也可以用新的访问mysql方式）
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': os.path.join(BASE_DIR,'my.cnf'),
+        },
     }
 }
+
+
+# DATABASES = {
+#         'default':{
+#                         'ENGINE':'django.db.backends.mysql',
+#                         'HOST':'127.0.0.1',
+#                         'PORT':'3306',
+#                         'NAME':'sign_db',
+#                         'USER':'root',
+#                         'PASSWORD':'123456',
+#                         'OPTIONS':{
+#                                             'init_command':"SET sql_mode='STRICT_TRANS_TABLES'",
+#                                             },
+#                         }
+# }
 
 
 # Password validation
@@ -112,7 +141,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
