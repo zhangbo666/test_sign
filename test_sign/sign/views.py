@@ -42,16 +42,13 @@ def login_action(request):
         username = request.POST.get('username','')
         password = request.POST.get('password','')
 
-        print (username,password)
-        if username == "" or password == "":
+        if username == " " or password == " ":
 
             return  render(request,"index.html",{"error":"用户账号或用户密码为空"})
 
         else:
 
             user = auth.authenticate(username=username, password=password)
-
-            print (user)
 
             if user is not None:
 
@@ -72,6 +69,6 @@ def login_action(request):
 
     elif request.method == 'GET':
 
-            return render(request, 'show.html')
+            return render(request, 'index.html')
 
 
