@@ -6,6 +6,8 @@ from django.contrib import auth
 
 from django.contrib.auth.decorators import login_required
 
+from sign.models import Event,Guest
+
 
 # Create your views here.
 
@@ -16,13 +18,30 @@ def index(request):
     return render(request,"index.html")
 
 
-# 发布会页面
+# 发布会管理
 @login_required
 def event_manage(request):
 
     username = request.session.get('user','')
 
-    return render(request,"event_manage.html",{"user":username})
+    events = Event.objects.all()
+
+    return render(request,"event_manage.html",{"user":username,"events":events})
+
+
+# 发布会名称搜索
+@login_required
+def search_name(request):
+
+    username = request.session.get('user','')
+
+    search_name = request.GET.get('name')
+
+    print (search_name)
+
+    events = Event.objects.filter(name__contains=search_name)
+
+    return render(request,"event_manage.html",{"user":username,"events":events})
 
 
 # 发布会退出

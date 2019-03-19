@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sign',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -103,8 +104,8 @@ DATABASES = {
                         'PORT':'3306',
                         'NAME':'sign_db',
                         'USER':'root',
-                        # 'PASSWORD':'1234qwer',
-                        'PASSWORD':'123456',
+                        'PASSWORD':'1234qwer',
+                        # 'PASSWORD':'123456',
                         'OPTIONS':{
                                             'init_command':"SET sql_mode='STRICT_TRANS_TABLES'",
                                             },
