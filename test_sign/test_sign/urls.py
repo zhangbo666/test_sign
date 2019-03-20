@@ -26,5 +26,7 @@ urlpatterns = [
     path('accounts/login/',views.index),
     path('logout/',views.logout),
     path('search_name/',views.search_name),
+    path('search_phone/',views.search_phone),
+    path('guest_manage/',views.guest_manage),
 
 ]

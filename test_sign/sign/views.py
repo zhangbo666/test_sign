@@ -91,3 +91,31 @@ def login_action(request):
             return render(request, 'index.html')
 
 
+
+
+# 嘉宾管理
+@login_required
+def guest_manage(request):
+
+    username = request.session.get('user','')
+
+    guests = Guest.objects.all()
+
+    print (guests)
+
+    return render(request,"guest_manage.html",{"user":username,"guests":guests})
+
+
+# 嘉宾手机号搜索
+@login_required
+def search_phone(request):
+
+    username = request.session.get('user','')
+
+    search_phone = request.GET.get('phone')
+
+    print (search_phone)
+
+    guests = Guest.objects.filter(phone__contains=search_phone)
+
+    return render(request,"guest_manage.html",{"user":username,"guests":guests})
