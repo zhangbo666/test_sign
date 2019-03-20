@@ -70,6 +70,7 @@
                               <th>邮箱</th>
                               <th>签到状态</th>
                               <th>创建时间</th>
+                              <th>发布会id</th>
                           </tr>
                       </thead>
 
@@ -83,13 +84,63 @@
                               <td>{{ guest.email}}</td>
                               <td>{{ guest.sign}}</td>
                               <td>{{ guest.create_time}}</td>
+                              <td>{{ guest.event }}</td>
                           </tr>
                           {% endfor %}
                       </tbody>
                   </table>
               </div>
           </div>
-
+          <div style="text-align: center;color:red">{{ hint }}</div>
      </div>
+
+  <!--嘉宾分页器-->
+
+  <div style="text-align: center;">
+      <div class="pagination">
+
+          <span class="step-links">
+
+              {% if guests.has_previous %}
+
+                    {% if phone %}
+
+                        <a href="?phone={{ phone }}&page={{ guests.previous_page_number}}">上一页</a>
+
+                    {% else %}
+
+                        <a href="?page={{ guests.previous_page_number}}">上一页</a>
+
+                    {% endif %}
+
+              {% endif %}
+
+                    {% if guests %}
+
+                         <span class="current">
+
+                             Page {{ guests.number }} of {{ guests.paginator.num_pages }}.
+
+                         </span>
+
+                    {% endif %}
+
+              {% if guests.has_next %}
+
+                  {% if phone %}
+
+                        <a href="?phone={{ phone }}&page={{ guests.next_page_number}}">下一页</a>
+
+                  {% else %}
+
+                        <a href="?page={{ guests.next_page_number }}">下一页</a>
+
+                  {% endif %}
+
+              {% endif %}
+
+          </span>
+      </div>
+  </div>
 </body>
 </html>

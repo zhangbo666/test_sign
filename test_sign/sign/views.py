@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 
 from sign.models import Event,Guest
 
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+
 
 # Create your views here.
 
@@ -37,14 +39,36 @@ def search_name(request):
 
     search_name = request.GET.get('name')
 
-    print (search_name)
-
     events = Event.objects.filter(name__contains=search_name)
 
-    return render(request,"event_manage.html",{"user":username,"events":events})
+
+    if len(events) == 0:
+
+        return render(request,"event_manage.html",{"user":username,"hint":"搜索'发布会'查询结果为空"})
+
+    paginator = Paginator(events,2)
+
+    # 传一个页面数据
+    page = request.GET.get('page')
+
+    try:
+
+        contacts = paginator.page(page)
+
+    except PageNotAnInteger:
+
+        contacts = paginator.page(1)
+
+    except EmptyPage:
+
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request,"event_manage.html",{"user":username,"events":contacts,"name":search_name})
 
 
-# 发布会退出
+
+
+# 发布会管理系统退出
 @login_required
 def logout(request):
 
@@ -53,7 +77,7 @@ def logout(request):
     return HttpResponseRedirect("/index/")
 
 
-# 发布会登录
+# 发布会管理系统登录
 def login_action(request):
 
     if request.method == 'POST':
@@ -101,9 +125,24 @@ def guest_manage(request):
 
     guests = Guest.objects.all()
 
-    print (guests)
+    paginator = Paginator(guests,3)
 
-    return render(request,"guest_manage.html",{"user":username,"guests":guests})
+    # 传一个页面数据
+    page = request.GET.get('page')
+
+    try:
+
+        contacts = paginator.page(page)
+
+    except PageNotAnInteger:
+
+        contacts = paginator.page(1)
+
+    except EmptyPage:
+
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request,"guest_manage.html",{"user":username,"guests":contacts})
 
 
 # 嘉宾手机号搜索
@@ -112,10 +151,29 @@ def search_phone(request):
 
     username = request.session.get('user','')
 
-    search_phone = request.GET.get('phone')
-
-    print (search_phone)
+    search_phone = request.GET.get('phone','')
 
     guests = Guest.objects.filter(phone__contains=search_phone)
 
-    return render(request,"guest_manage.html",{"user":username,"guests":guests})
+    if len(guests) == 0:
+
+        return render(request,"guest_manage.html",{"user":username,"hint":"搜索'手机号'查询结果为空"})
+
+    paginator = Paginator(guests,2)
+
+    # 传一个页面数据
+    page = request.GET.get('page')
+
+    try:
+
+        contacts = paginator.page(page)
+
+    except PageNotAnInteger:
+
+        contacts = paginator.page(1)
+
+    except EmptyPage:
+
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request,"guest_manage.html",{"user":username,"guests":contacts,"phone":search_phone})

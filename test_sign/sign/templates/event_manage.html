@@ -46,10 +46,10 @@
           <div class="page-header" style="margin-top: 80px;">
 
                <div id="navbar1" class="navbar-collapse collapse">
-                 
+
                   <form class="navbar-form" method="get" action="/search_name/">
                       <div class="form-group">
-                          <input name="name" type="tel" placeholder="名称" class="form-control">
+                          <input name="name" type="tel" placeholder="发布会名称" class="form-control">
                       </div>
                       <button type="submit" class="btn btn-success">搜索</button>
                   </form>
@@ -91,7 +91,58 @@
                   </table>
               </div>
           </div>
+          <div style="text-align: center;color:red">{{ hint }}</div>
 
      </div>
+
+  <!--嘉宾分页器-->
+  <div style="text-align: center;">
+
+      <div class="pagination">
+
+          <span class="step-links">
+
+              {% if events.has_previous %}
+
+                    {% if name %}
+
+                        <a href="?name={{ name }}&page={{ events.previous_page_number}}">上一页</a>
+
+                    {% else %}
+
+                        <a href="?page={{ events.previous_page_number}}">上一页</a>
+
+                    {% endif %}
+
+              {% endif %}
+
+                    {% if events %}
+
+                         <span class="current">
+
+                             Page {{ events.number }} of {{ events.paginator.num_pages }}.
+
+                         </span>
+
+                    {% endif %}
+
+              {% if events.has_next %}
+
+                  {% if name %}
+
+                        <a href="?name={{ name }}&page={{ events.next_page_number}}">下一页</a>
+
+                  {% else %}
+
+                        <a href="?page={{ guests.next_page_number }}">下一页</a>
+
+                  {% endif %}
+
+              {% endif %}
+
+          </span>
+      </div>
+  </div>
+
 </body>
 </html>
