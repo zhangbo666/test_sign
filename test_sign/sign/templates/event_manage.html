@@ -2,13 +2,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+      {% load bootstrap3 %}
+      {% bootstrap_css %}
 
     <title>发布会管理系统</title>
 
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   </head>
 
 <body>
@@ -84,7 +82,7 @@
                               <td>{{ event.address}}</td>
                               <td>{{ event.status}}</td>
                               <td>{{ event.start_time}}</td>
-                              <td><a href="#">sign</a></td>
+                              <td><a href="/sign_index/{{ event.id }}/" target="{{ event.id }}_blank">sign</a></td>
                           </tr>
                           {% endfor %}
                       </tbody>
@@ -95,7 +93,7 @@
 
      </div>
 
-  <!--嘉宾分页器-->
+  <!--发布会分页器-->
   <div style="text-align: center;">
 
       <div class="pagination">
@@ -134,7 +132,7 @@
 
                   {% else %}
 
-                        <a href="?page={{ guests.next_page_number }}">下一页</a>
+                        <a href="?page={{ events.next_page_number }}">下一页</a>
 
                   {% endif %}
 

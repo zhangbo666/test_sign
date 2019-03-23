@@ -10,6 +10,8 @@ from sign.models import Event,Guest
 
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
+from django.shortcuts import get_object_or_404
+
 
 # Create your views here.
 
@@ -28,7 +30,36 @@ def event_manage(request):
 
     events = Event.objects.all()
 
-    return render(request,"event_manage.html",{"user":username,"events":events})
+    paginator = Paginator(events,2)
+
+    # 传一个页面数据get参数的值
+    page = request.GET.get('page')
+
+    print (page)
+
+    try:
+
+        contacts = paginator.page(page)
+
+        print ("contacts---------->1",contacts)
+
+    except PageNotAnInteger:
+
+        contacts = paginator.page(1)
+
+        print ("contacts---------->2",contacts)
+
+    except EmptyPage:
+
+        contacts = paginator.page(paginator.num_pages)
+
+        print ("contacts---------->3",contacts)
+
+    print("contacts---------->4", contacts)
+
+    return render(request,"event_manage.html",{"user":username,"events":contacts})
+
+    # return render(request,"event_manage.html",{"user":username,"events":events})
 
 
 # 发布会名称搜索
@@ -37,7 +68,7 @@ def search_name(request):
 
     username = request.session.get('user','')
 
-    search_name = request.GET.get('name')
+    search_name = request.GET.get('name','')
 
     events = Event.objects.filter(name__contains=search_name)
 
@@ -127,20 +158,30 @@ def guest_manage(request):
 
     paginator = Paginator(guests,3)
 
-    # 传一个页面数据
+    # 传一个页面数据get参数的值
     page = request.GET.get('page')
+
+    print (page)
 
     try:
 
         contacts = paginator.page(page)
 
+        print ("contacts---------->1",contacts)
+
     except PageNotAnInteger:
 
         contacts = paginator.page(1)
 
+        print ("contacts---------->2",contacts)
+
     except EmptyPage:
 
         contacts = paginator.page(paginator.num_pages)
+
+        print ("contacts---------->3",contacts)
+
+    print ("contacts---------->4",contacts)
 
     return render(request,"guest_manage.html",{"user":username,"guests":contacts})
 
@@ -177,3 +218,83 @@ def search_phone(request):
         contacts = paginator.page(paginator.num_pages)
 
     return render(request,"guest_manage.html",{"user":username,"guests":contacts,"phone":search_phone})
+
+
+# 嘉宾签到页面
+@login_required
+def sign_index(request,event_id):
+
+    event = get_object_or_404(Event,id = event_id)
+
+    guest_list = Guest.objects.filter(event_id=event_id)  #某个发布会的签到人数
+
+    guest_list = len(guest_list)
+
+    sign_list = Guest.objects.filter(sign="1",event_id = event_id) # 某个发布会的签到完成人数
+
+    sign_list = len(sign_list)
+
+    return render(request,"sign_index.html",{"event":event,
+                                             "guest_list":guest_list,
+                                             "sign_list":sign_list})
+
+
+# 嘉宾签到处理
+@login_required
+def sign_index_action(request,event_id):
+
+    event = get_object_or_404(Event,id = event_id)
+
+    guest_list = Guest.objects.filter(event_id=event_id)  #某个发布会的签到人数
+
+    guest_list = len(guest_list)
+
+    sign_list = Guest.objects.filter(sign="1",event_id = event_id) # 某个发布会的签到完成人数
+
+    sign_list = len(sign_list)
+
+    phone = request.POST.get('phone','')
+
+    result = Guest.objects.filter(phone=phone)
+
+    if not result:
+
+        return render(request,'sign_index.html',{'event':event,
+                                                 'error':'手机号错误或为空！！！',
+                                                 'guest_list':guest_list,
+                                                 'sign_list':sign_list})
+
+    result = Guest.objects.filter(phone=phone,event_id=event_id)
+
+    if not result:
+
+        return render(request,'sign_index.html',{'event':event,
+                                                 'error':'当前手机号与本次发布会信息绑定不一致，无法进行签到！！！',
+                                                 'guest_list':guest_list,
+                                                 'sign_list':sign_list})
+
+    result = Guest.objects.get(event_id=event_id,phone=phone)
+
+    if result.sign:
+
+        return render(request,'sign_index.html',{'event':event,
+                                                 'error':'该用户已签到！！！',
+                                                 'guest_list':guest_list,
+                                                 'sign_list':sign_list})
+
+    else:
+
+        Guest.objects.filter(event_id=event_id,phone=phone).update(sign = '1')
+
+        sign_list = Guest.objects.filter(sign="1", event_id=event_id)  # 某个发布会的签到完成人数
+
+        sign_list = len(sign_list)
+
+        return render(request,'sign_index.html',{'event':event,
+                                                 'error':'该用户签到成功！！！',
+                                                 'guest_list':guest_list,
+                                                 'sign_list':sign_list,
+                                                 'sign_user':result,})
+
+
+
