@@ -30,7 +30,7 @@ def event_manage(request):
 
     events = Event.objects.all()
 
-    paginator = Paginator(events,2)
+    paginator = Paginator(events,3)
 
     # 传一个页面数据get参数的值
     page = request.GET.get('page')
@@ -39,6 +39,7 @@ def event_manage(request):
 
     try:
 
+        # 获取page参数的值
         contacts = paginator.page(page)
 
         print ("contacts---------->1",contacts)
@@ -156,7 +157,7 @@ def guest_manage(request):
 
     guests = Guest.objects.all()
 
-    paginator = Paginator(guests,3)
+    paginator = Paginator(guests,5)
 
     # 传一个页面数据get参数的值
     page = request.GET.get('page')
@@ -200,7 +201,7 @@ def search_phone(request):
 
         return render(request,"guest_manage.html",{"user":username,"hint":"搜索'手机号'查询结果为空"})
 
-    paginator = Paginator(guests,2)
+    paginator = Paginator(guests,5)
 
     # 传一个页面数据
     page = request.GET.get('page')
@@ -273,7 +274,7 @@ def sign_index_action(request,event_id):
                                                  'guest_list':guest_list,
                                                  'sign_list':sign_list})
 
-    result = Guest.objects.get(event_id=event_id,phone=phone)
+    result = Guest.objects.get(phone=phone,event_id=event_id)
 
     if result.sign:
 
