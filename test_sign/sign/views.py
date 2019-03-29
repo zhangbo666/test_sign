@@ -78,7 +78,7 @@ def search_name(request):
 
         return render(request,"event_manage.html",{"user":username,"hint":"搜索'发布会'查询结果为空"})
 
-    paginator = Paginator(events,2)
+    paginator = Paginator(events,3)
 
     # 传一个页面数据
     page = request.GET.get('page')
