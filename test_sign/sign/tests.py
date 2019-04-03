@@ -1,6 +1,7 @@
 from django.test import TestCase
 
-# Create your tests here.
+from django.contrib.auth.models import User
+
 
 from django.test.utils import setup_test_environment
 
@@ -28,8 +29,17 @@ class IndexPageTest(TestCase):
 
 class LoginActionTest(TestCase):
 
-    '''测试登录动作'''
+    '''初始化数据库表数据'''
+    def setUp(self):
 
+        User.objects.create_user('admin','admin@qq.com','admin123456')
+        user = User.objects.get(username='admin')
+
+    '''测试登录动作'''
     def test_login_action_success(self):
 
-        self.client.post('/login_action/')
+        response = self.client.post('/login_action/',{'username':'admin','password':'admin123456'})
+
+        # print (response.status_code)
+
+        self.assertEqual(response.status_code,302)
