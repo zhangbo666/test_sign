@@ -23,6 +23,11 @@ class Event(models.Model):
     #发布会创建时间
     create_time = models.DateTimeField(auto_now=True)
 
+    class Meta:
+
+        ordering = ['-id']
+
+
     #python3.5
     def __str__(self):
 
@@ -60,6 +65,7 @@ class Guest(models.Model):
 
         unique_together = ("event","phone")
 
+        ordering = ['-id']
 
     #python3.5
     def __str__(self):

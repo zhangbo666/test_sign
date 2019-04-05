@@ -117,9 +117,9 @@ def login_action(request):
         username = request.POST.get('username','')
         password = request.POST.get('password','')
 
-        if username == " " or password == " ":
+        if username == "" or password == "":
 
-            return  render(request,"index.html",{"error":"用户账号或用户密码为空"})
+            return  render(request,"index.html",{"error":"username or password null"})
 
         else:
 
@@ -140,7 +140,7 @@ def login_action(request):
 
             else:
 
-                return render(request,'index.html', {'error': "用户账号或用户密码输入错误"})
+                return render(request,'index.html', {'error': "username or password error"})
 
     elif request.method == 'GET':
 
@@ -258,10 +258,15 @@ def sign_index_action(request,event_id):
 
     result = Guest.objects.filter(phone=phone)
 
+    error1 = "手机号错误或为空！！！"
+    error2 = "当前手机号与本次发布会信息绑定不一致，无法进行签到！！！"
+    error3 = "该用户已签到！！！"
+    error4 = "该用户签到成功！！！"
+
     if not result:
 
         return render(request,'sign_index.html',{'event':event,
-                                                 'error':'手机号错误或为空！！！',
+                                                 'error':'phone error.',
                                                  'guest_list':guest_list,
                                                  'sign_list':sign_list})
 
@@ -270,7 +275,7 @@ def sign_index_action(request,event_id):
     if not result:
 
         return render(request,'sign_index.html',{'event':event,
-                                                 'error':'当前手机号与本次发布会信息绑定不一致，无法进行签到！！！',
+                                                 'error':'phone mismatch.',
                                                  'guest_list':guest_list,
                                                  'sign_list':sign_list})
 
@@ -279,7 +284,7 @@ def sign_index_action(request,event_id):
     if result.sign:
 
         return render(request,'sign_index.html',{'event':event,
-                                                 'error':'该用户已签到！！！',
+                                                 'error':'user has sign in.',
                                                  'guest_list':guest_list,
                                                  'sign_list':sign_list})
 
@@ -292,7 +297,7 @@ def sign_index_action(request,event_id):
         sign_list = len(sign_list)
 
         return render(request,'sign_index.html',{'event':event,
-                                                 'error':'该用户签到成功！！！',
+                                                 'error':'sign in success!',
                                                  'guest_list':guest_list,
                                                  'sign_list':sign_list,
                                                  'sign_user':result,})
