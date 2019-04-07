@@ -38,8 +38,66 @@
           </div>
       </nav>
 
+  <!--发布会添加-->
+      {% if type == "add" %}
+
+          <h3>添加项目</h3>
+
+          <form class="form-horizontal" style="margin-left:400px;" method="post" action="/event_manage/add_event/">
+              <fieldset>
+                  <div class="control-group">
+                      <label class="control-label">名称</label>
+                      <div class="controls">
+                          <input type="text" name='event_name' class="input-xlarge">
+                          <span style="color:red">{{ event_name }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group">
+                      <label class="control-label">地址</label>
+                      <div class="controls">
+                          <input type="text" name='event_address' class="input-xlarge">
+                          <span style="color:red">{{ event_address }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group">
+                      <label class="control-label">参加人数</label>
+                      <div class="controls">
+                          <input type="text" name='event_limit' class="input-xlarge">
+                          <span style="color:red">{{ event_limit }}</span>
+                      </div>
+                  </div>
+
+
+                  <div class="control-group">
+                      <label class="control-label">状态</label>
+                      <div class="controls" style="height:30px;">
+                          <label class="radio inline" style="left: 50px;float: left">
+                                <input type="radio" value="1" checked="checked" name="event_status">开启
+                          </label>
+                          <label class="radio inline" style="left: 80px;float: left;">
+                                <input type="radio" value="0" name="event_status">关闭
+                          </label>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-left:20px;float: left">
+                      <div class="controls">
+                        <button class="btn btn-success">保存</button>
+                      </div>
+                  </div>
+              </fieldset>
+          </form>
+
+      {% endif %}
+
+
+
   <!--发布会表单搜索-->
       <div class="container theme-showcase" role="main">
+
+          {% if type == "list" %}
 
           <div class="page-header" style="margin-top: 80px;">
 
@@ -51,6 +109,8 @@
                       </div>
                       <button type="submit" class="btn btn-success">搜索</button>
                   </form>
+                  <button class="btn btn-primary" name="submit" style="float:right;"
+                          onclick="location.href='/event_manage/add_event/'">创建</button>
                </div>
           </div>
 
@@ -89,58 +149,134 @@
                   </table>
               </div>
           </div>
+          {% endif %}
           <div style="text-align: center;color:red">{{ hint }}</div>
 
      </div>
 
-  <!--发布会分页器-->
-  <div style="text-align: center;">
+      <!--发布会分页器-->
+      <div style="text-align: center;">
 
-      <div class="pagination">
+          <div class="pagination">
 
-          <span class="step-links">
+              <span class="step-links">
+
+                  {% if events.has_previous %}
+
+                      {% if name %}
+
+                          <a href="?name={{ name }}&page={{ events.previous_page_number}}">上一页</a>
+
+                      {% else %}
+
+                          <a href="?page={{ events.previous_page_number}}">上一页</a>
+
+                      {% endif %}
+
+                  {% endif %}
+
+                  {% if events %}
+
+                      <span class="current">
+
+                          Page {{ events.number }} of {{ events.paginator.num_pages }}.
+
+                      </span>
+
+                  {% endif %}
+
+                  {% if events.has_next %}
+
+                      {% if name %}
+
+                          <a href="?name={{ name }}&page={{ events.next_page_number}}">下一页</a>
+
+                      {% else %}
+
+                          <a href="?page={{ events.next_page_number }}">下一页</a>
+
+                      {% endif %}
+
+                  {% endif %}
+
+              </span>
+          </div>
+      </div>
+
+
+      <!--按钮分页器-->
+      <div class="container" style="text-align: center;">
+
+          <div class="pagination">
 
               {% if events.has_previous %}
 
-                    {% if name %}
-
-                        <a href="?name={{ name }}&page={{ events.previous_page_number}}">上一页</a>
-
-                    {% else %}
-
-                        <a href="?page={{ events.previous_page_number}}">上一页</a>
-
-                    {% endif %}
-
-              {% endif %}
-
-                    {% if events %}
-
-                         <span class="current">
-
-                             Page {{ events.number }} of {{ events.paginator.num_pages }}.
-
-                         </span>
-
-                    {% endif %}
-
-              {% if events.has_next %}
-
                   {% if name %}
 
-                        <a href="?name={{ name }}&page={{ events.next_page_number}}">下一页</a>
+                      <li><a href="?name={{ name }}&page={{ events.previous_page_number}}">&laquo;</a></li>
+
+                      <li><a href="?name={{ name }}&page={{ events.previous_page_number}}">{{ events.previous_page_number}}</a></li>
 
                   {% else %}
 
-                        <a href="?page={{ events.next_page_number }}">下一页</a>
+                      <li><a href="?page={{ events.previous_page_number}}">&laquo;</a></li>
+
+                      <li><a href="?page={{ events.previous_page_number}}">{{ events.previous_page_number}}</a></li>
 
                   {% endif %}
 
               {% endif %}
 
-          </span>
+              {% if events %}
+
+                  {% if events.has_previous %}
+
+                      <li class="active"><a href="?name={{ name }}&page={{ events.number}}">{{ events.number}}</a></li>
+
+                  {% else %}
+
+                      {% if name %}
+
+                          <li class="disabled"><a href="#">&laquo;</a></li>
+
+                          <li class="active"><a href="?name={{ name }}&page={{ events.number}}">{{ events.number}}</a></li>
+
+                      {% else %}
+
+                          <li class="disabled"><a href="#">&laquo;</a></li>
+
+                          <li class="active"><a href="?page={{ events.number}}">{{ events.number}}</a></li>
+
+                      {% endif %}
+
+                  {% endif %}
+
+              {% endif %}
+
+              {% if events.has_next %}
+
+                  {% if name %}
+
+                      <li><a href="?name={{ name }}&page={{ events.next_page_number}}">{{ events.next_page_number}}</a></li>
+
+                      <li><a href="?name={{ name }}&page={{ events.next_page_number}}">&raquo;</a></li>
+
+                  {% else %}
+
+                      <li><a href="?page={{ events.next_page_number}}">{{ events.next_page_number}}</a></li>
+
+                      <li><a href="?page={{ events.next_page_number}}">&raquo;</a></li>
+
+                  {% endif %}
+
+              {% else %}
+
+                  <li class="disabled"><a href="#">&raquo;</a></li>
+
+              {% endif %}
+
       </div>
-  </div>
+
 
 </body>
 </html>

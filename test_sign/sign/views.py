@@ -12,6 +12,8 @@ from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 from django.shortcuts import get_object_or_404
 
+from datetime import datetime
+
 
 # Create your views here.
 
@@ -30,12 +32,21 @@ def event_manage(request):
 
     events = Event.objects.all()
 
-    paginator = Paginator(events,3)
+    paginator = Paginator(events,5)
+
+    paginator_count = paginator.count
+
+    paginator_num_pages = paginator.num_pages
+
+    l1 = []
+
+    for n1 in range (1,paginator_num_pages+1):
+
+        l1.append(n1)
 
     # 传一个页面数据get参数的值
     page = request.GET.get('page')
-
-    print (page)
+    # print (page)
 
     try:
 
@@ -58,7 +69,7 @@ def event_manage(request):
 
     print("contacts---------->4", contacts)
 
-    return render(request,"event_manage.html",{"user":username,"events":contacts})
+    return render(request,"event_manage.html",{"user":username,"events":contacts,"type":"list","nums":l1,"page":page})
 
     # return render(request,"event_manage.html",{"user":username,"events":events})
 
@@ -78,7 +89,7 @@ def search_name(request):
 
         return render(request,"event_manage.html",{"user":username,"hint":"搜索'发布会'查询结果为空"})
 
-    paginator = Paginator(events,3)
+    paginator = Paginator(events,2)
 
     # 传一个页面数据
     page = request.GET.get('page')
@@ -98,6 +109,42 @@ def search_name(request):
     return render(request,"event_manage.html",{"user":username,"events":contacts,"name":search_name})
 
 
+# 添加发布会
+@login_required
+def add_event(request):
+
+    if request.method == 'GET':
+
+        return render(request,"event_manage.html",{"type":"add"})
+
+    elif request.method == 'POST':
+
+        event_name = request.POST.get("event_name","")
+
+        event_address = request.POST.get("event_address","")
+
+        event_status = request.POST.get("event_status","")
+
+        event_limit = request.POST.get("event_limit","")
+
+        if event_name == "":
+
+            return render(request,"event_manage.html",{"type":"add","event_name":"发布会名称不能为空"})
+
+        elif event_address == "":
+
+            return render(request,"event_manage.html",{"type":"add","event_address":"发布会地址不能为空"})
+
+        elif event_limit == "":
+
+            return render(request,"event_manage.html",{"type":"add","event_limit":"发布会参加人数不能为空"})
+
+        else:
+
+            Event.objects.create(name=event_name,address=event_address,status=event_status,limit=event_limit,
+                                 start_time=datetime(2019,4,3,00,10,00))
+
+            return HttpResponseRedirect("/event_manage/")
 
 
 # 发布会管理系统退出
