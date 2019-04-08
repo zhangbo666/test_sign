@@ -30,7 +30,10 @@ urlpatterns = [
     path('logout/',views.logout),
     path('search_name/',views.search_name),
     path('search_phone/',views.search_phone),
+
     path('guest_manage/',views.guest_manage),
+    path('guest_manage/add_guest/',views.add_guest),
+
     path('sign_index/<int:event_id>/',views.sign_index),
     path('sign_index_action/<int:event_id>/',views.sign_index_action),
 

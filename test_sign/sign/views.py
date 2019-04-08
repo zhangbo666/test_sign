@@ -69,7 +69,9 @@ def event_manage(request):
 
     print("contacts---------->4", contacts)
 
-    return render(request,"event_manage.html",{"user":username,"events":contacts,"type":"list","nums":l1,"page":page})
+    return render(request,"event_manage.html",{"user":username,"events":contacts,
+                                               "type":"list","search_result":"result_data",
+                                               "nums":l1,"page":page})
 
     # return render(request,"event_manage.html",{"user":username,"events":events})
 
@@ -87,9 +89,11 @@ def search_name(request):
 
     if len(events) == 0:
 
-        return render(request,"event_manage.html",{"user":username,"hint":"搜索'发布会'查询结果为空"})
+        return render(request,"event_manage.html",{"user":username,"type":"list",
+                                                   "search_result":"result_not",
+                                                   "hint":"搜索发布会查询结果为空，请重新查询！！！"})
 
-    paginator = Paginator(events,2)
+    paginator = Paginator(events,5)
 
     # 传一个页面数据
     page = request.GET.get('page')
@@ -106,7 +110,9 @@ def search_name(request):
 
         contacts = paginator.page(paginator.num_pages)
 
-    return render(request,"event_manage.html",{"user":username,"events":contacts,"name":search_name})
+    return render(request,"event_manage.html",{"user":username,"events":contacts,
+                                               "type":"list","search_result":"result_data",
+                                               "name":search_name})
 
 
 # 添加发布会
@@ -231,7 +237,8 @@ def guest_manage(request):
 
     print ("contacts---------->4",contacts)
 
-    return render(request,"guest_manage.html",{"user":username,"guests":contacts})
+    return render(request,"guest_manage.html",{"user":username,"guests":contacts,
+                                               "type": "list", "search_result": "result_data",})
 
 
 # 嘉宾手机号搜索
@@ -246,7 +253,9 @@ def search_phone(request):
 
     if len(guests) == 0:
 
-        return render(request,"guest_manage.html",{"user":username,"hint":"搜索'手机号'查询结果为空"})
+        return render(request,"guest_manage.html",{"user":username,"type":"list",
+                                                   "search_result":"result_not",
+                                                   "hint":"搜索'手机号'查询结果为空"})
 
     paginator = Paginator(guests,5)
 
@@ -265,7 +274,48 @@ def search_phone(request):
 
         contacts = paginator.page(paginator.num_pages)
 
-    return render(request,"guest_manage.html",{"user":username,"guests":contacts,"phone":search_phone})
+    return render(request,"guest_manage.html",{"user":username,"guests":contacts,
+                                               "type":"list","search_result":"result_not",
+                                               "phone":search_phone})
+
+
+# 添加嘉宾
+@login_required
+def add_guest(request):
+
+    if request.method == 'GET':
+
+        return render(request,"guest_manage.html",{"type":"add"})
+
+    elif request.method == 'POST':
+
+        guest_name = request.POST.get("guest_name","")
+
+        guest_phone = request.POST.get("guest_phone","")
+
+        guest_email = request.POST.get("guest_email","")
+
+        guest_status = request.POST.get("guest_status","")
+
+        if guest_name == "":
+
+            return render(request,"event_manage.html",{"type":"add","guest_name":"发布会名称不能为空"})
+
+        elif guest_phone == "":
+
+            return render(request,"event_manage.html",{"type":"add","guest_phone":"发布会地址不能为空"})
+
+        elif guest_email == "":
+
+            return render(request,"event_manage.html",{"type":"add","guest_email":"发布会参加人数不能为空"})
+
+        else:
+
+            Event.objects.create(name=event_name,address=event_address,status=event_status,limit=event_limit,
+                                 start_time=datetime(2019,4,3,00,10,00))
+
+            return HttpResponseRedirect("/event_manage/")
+
 
 
 # 嘉宾签到页面

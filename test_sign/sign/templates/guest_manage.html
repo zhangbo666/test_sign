@@ -10,16 +10,15 @@
 
     <title>发布会管理系统</title>
 
-{#    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">#}
   </head>
 
 <body>
 
-  <!--导航条-->
+      <!--导航条-->
       <nav class="navbar navbar-fixed-top navbar-inverse">
           <div class="container">
               <div class="navbar-header">
-                  <a class="navbar-brand" href="/event_manage/">发布会管理系统</a>
+                  <a class="navbar-brand" href="/event_manage/">51talk签到系统</a>
               </div>
               <div id="navbar" class="collapse navbar-collapse">
                   <ul class="nav navbar-nav">
@@ -42,7 +41,64 @@
           </div>
       </nav>
 
-  <!--嘉宾表单搜索-->
+      <!--嘉宾添加-->
+      {% if type == "add" %}
+
+          <h3>添加嘉宾</h3>
+
+          <form class="form-horizontal" style="margin-left:400px;" method="post" action="/guest_manage/add_guest/">
+              <fieldset>
+                  <div class="control-group">
+                      <label class="control-label">姓名</label>
+                      <div class="controls">
+                          <input type="text" name='guest_name' class="input-xlarge">
+                          <span style="color:red">{{ guest_name }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group">
+                      <label class="control-label">手机号</label>
+                      <div class="controls">
+                          <input type="text" name='guest_phone' class="input-xlarge">
+                          <span style="color:red">{{ guest_phone }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group">
+                      <label class="control-label">邮箱</label>
+                      <div class="controls">
+                          <input type="text" name='guest_email' class="input-xlarge">
+                          <span style="color:red">{{ guest_email }}</span>
+                      </div>
+                  </div>
+
+
+                  <div class="control-group">
+                      <label class="control-label">状态</label>
+                      <div class="controls" style="height:30px;">
+                          <label class="radio inline" style="left: 50px;float: left">
+                                <input type="radio" value="1" checked="checked" name="guest_status">开启
+                          </label>
+                          <label class="radio inline" style="left: 80px;float: left;">
+                                <input type="radio" value="0" name="guest_status">关闭
+                          </label>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-left:20px;float: left">
+                      <div class="controls">
+                        <button class="btn btn-success">保存</button>
+                      </div>
+                  </div>
+              </fieldset>
+          </form>
+
+      {% endif %}
+
+
+      <!--嘉宾表单list-->
+      {% if type == "list" %}
+
       <div class="container theme-showcase" role="main">
 
           <div class="page-header" style="margin-top: 80px;">
@@ -55,6 +111,10 @@
                       </div>
                       <button type="submit" class="btn btn-success">搜索</button>
                   </form>
+                  <button class="btn btn-primary" name="submit" style="float:right;"
+                          onclick="location.href='/guest_manage/add_guest/'">创建
+                  </button>
+
                </div>
           </div>
 
@@ -96,54 +156,134 @@
           <div style="text-align: center;color:red">{{ hint }}</div>
      </div>
 
-  <!--嘉宾分页器-->
+      {% endif %}
 
-  <div style="text-align: center;">
 
-      <div class="pagination">
+      <!--嘉宾分页器-->
+      <div style="text-align: center;">
 
-          <span class="step-links">
+          <div class="pagination">
+
+              <span class="step-links">
+
+                  {% if guests.has_previous %}
+
+                        {% if phone %}
+
+                            <a href="?phone={{ phone }}&page={{ guests.previous_page_number}}">上一页</a>
+
+                        {% else %}
+
+                            <a href="?page={{ guests.previous_page_number}}">上一页</a>
+
+                        {% endif %}
+
+                  {% endif %}
+
+                        {% if guests %}
+
+                             <span class="current">
+
+                                 Page {{ guests.number }} of {{ guests.paginator.num_pages }}.
+
+                             </span>
+
+                        {% endif %}
+
+                  {% if guests.has_next %}
+
+                      {% if phone %}
+
+                            <a href="?phone={{ phone }}&page={{ guests.next_page_number}}">下一页</a>
+
+                      {% else %}
+
+                            <a href="?page={{ guests.next_page_number }}">下一页</a>
+
+                      {% endif %}
+
+                  {% endif %}
+
+              </span>
+          </div>
+      </div>
+
+      <!--按钮分页器-->
+      {% if search_result == "result_data" %}
+
+      <div class="container" style="text-align: center;">
+
+          <div class="pagination">
 
               {% if guests.has_previous %}
 
-                    {% if phone %}
+                  {% if name %}
 
-                        <a href="?phone={{ phone }}&page={{ guests.previous_page_number}}">上一页</a>
+                      <li><a href="?name={{ name }}&page={{ guests.previous_page_number}}">&laquo;</a></li>
 
-                    {% else %}
-
-                        <a href="?page={{ guests.previous_page_number}}">上一页</a>
-
-                    {% endif %}
-
-              {% endif %}
-
-                    {% if guests %}
-
-                         <span class="current">
-
-                             Page {{ guests.number }} of {{ guests.paginator.num_pages }}.
-
-                         </span>
-
-                    {% endif %}
-
-              {% if guests.has_next %}
-
-                  {% if phone %}
-
-                        <a href="?phone={{ phone }}&page={{ guests.next_page_number}}">下一页</a>
+                      <li><a href="?name={{ name }}&page={{ guests.previous_page_number}}">{{ guests.previous_page_number}}</a></li>
 
                   {% else %}
 
-                        <a href="?page={{ guests.next_page_number }}">下一页</a>
+                      <li><a href="?page={{ guests.previous_page_number}}">&laquo;</a></li>
+
+                      <li><a href="?page={{ guests.previous_page_number}}">{{ guests.previous_page_number}}</a></li>
 
                   {% endif %}
 
               {% endif %}
 
-          </span>
+              {% if guests %}
+
+                  {% if guests.has_previous %}
+
+                      <li class="active"><a href="?name={{ name }}&page={{ guests.number}}">{{ guests.number}}</a></li>
+
+                  {% else %}
+
+                      {% if name %}
+
+                          <li class="disabled"><a href="#">&laquo;</a></li>
+
+                          <li class="active"><a href="?name={{ name }}&page={{ guests.number}}">{{ guests.number}}</a></li>
+
+                      {% else %}
+
+                          <li class="disabled"><a href="#">&laquo;</a></li>
+
+                          <li class="active"><a href="?page={{ guests.number}}">{{ guests.number}}</a></li>
+
+                      {% endif %}
+
+                  {% endif %}
+
+              {% endif %}
+
+              {% if guests.has_next %}
+
+                  {% if name %}
+
+                      <li><a href="?name={{ name }}&page={{ guests.next_page_number}}">{{ guests.next_page_number}}</a></li>
+
+                      <li><a href="?name={{ name }}&page={{ guests.next_page_number}}">&raquo;</a></li>
+
+                  {% else %}
+
+                      <li><a href="?page={{ guests.next_page_number}}">{{ guests.next_page_number}}</a></li>
+
+                      <li><a href="?page={{ guests.next_page_number}}">&raquo;</a></li>
+
+                  {% endif %}
+
+              {% else %}
+
+                  <li class="disabled"><a href="#">&raquo;</a></li>
+
+              {% endif %}
       </div>
-  </div>
+
+      {% endif %}
+
+
 </body>
 </html>
