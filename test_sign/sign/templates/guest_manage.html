@@ -46,46 +46,60 @@
 
           <h3>添加嘉宾</h3>
 
-          <form class="form-horizontal" style="margin-left:400px;" method="post" action="/guest_manage/add_guest/">
+          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/guest_manage/add_guest/">
               <fieldset>
                   <div class="control-group">
-                      <label class="control-label">姓名</label>
                       <div class="controls">
-                          <input type="text" name='guest_name' class="input-xlarge">
+                          <label class="control-label">姓名</label>
+                          <input type="text" name='guest_name' class="input-xlarge" style="margin-left: 28px;width:200px;">
                           <span style="color:red">{{ guest_name }}</span>
                       </div>
                   </div>
 
-                  <div class="control-group">
-                      <label class="control-label">手机号</label>
+                  <div class="control-group" style="margin-top: 20px;">
                       <div class="controls">
-                          <input type="text" name='guest_phone' class="input-xlarge">
+                          <label class="control-label">手机号</label>
+                          <input type="text" name='guest_phone' class="input-xlarge" style="margin-left: 14px;width:200px;">
                           <span style="color:red">{{ guest_phone }}</span>
                       </div>
                   </div>
 
-                  <div class="control-group">
-                      <label class="control-label">邮箱</label>
+                  <div class="control-group" style="margin-top: 20px;">
                       <div class="controls">
-                          <input type="text" name='guest_email' class="input-xlarge">
+                          <label class="control-label">邮箱</label>
+                          <input type="text" name='guest_email' class="input-xlarge" style="margin-left: 28px;width:200px;">
                           <span style="color:red">{{ guest_email }}</span>
                       </div>
                   </div>
 
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls">
+                          <label class="control-label" style="left: 40px;float: left">发布会名称</label>
+                          <select class="form-control" name="event_name" style="width:200px;">
+                              {% for event in events %}
+                              <option>{{ event.name }}</option>
+                              {% endfor %}
+                          </select>
+                          <span style="color:red">{{ event_name }}</span>
 
-                  <div class="control-group">
-                      <label class="control-label">状态</label>
+
+                      </div>
+
+                  </div>
+
+                  <div class="control-group" style="margin-top: 20px;">
                       <div class="controls" style="height:30px;">
-                          <label class="radio inline" style="left: 50px;float: left">
+                          <label class="control-label" style="left: 40px;float: left">状态</label>
+                          <label class="radio inline" style="left: 60px;float: left">
                                 <input type="radio" value="1" checked="checked" name="guest_status">开启
                           </label>
-                          <label class="radio inline" style="left: 80px;float: left;">
+                          <label class="radio inline" style="left: 90px;float: left;">
                                 <input type="radio" value="0" name="guest_status">关闭
                           </label>
                       </div>
                   </div>
 
-                  <div class="control-group" style="margin-left:20px;float: left">
+                  <div class="control-group" style="margin-left:20px;margin-top:20px;">
                       <div class="controls">
                         <button class="btn btn-success">保存</button>
                       </div>
@@ -144,8 +158,17 @@
                               <td>{{ guest.realname}}</td>
                               <td>{{ guest.phone}}</td>
                               <td>{{ guest.email}}</td>
-                              <td>{{ guest.sign}}</td>
-                              <td>{{ guest.create_time}}</td>
+                              <td>{% if guest.sign == True %}
+
+                                  <span>开启</span>
+
+                                  {% elif guest.sign == False %}
+
+                                  <span>禁用</span>
+
+                                  {% endif %}
+                              </td>
+                              <td>{{ guest.create_time | date:"Y-m-d H:i:s"}}</td>
                               <td>{{ guest.event }}</td>
                           </tr>
                           {% endfor %}

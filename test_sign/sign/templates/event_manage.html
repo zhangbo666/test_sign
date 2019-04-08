@@ -43,50 +43,53 @@
 
           <h3>添加项目</h3>
 
-          <form class="form-horizontal" style="margin-left:400px;" method="post" action="/event_manage/add_event/">
+          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/event_manage/add_event/">
               <fieldset>
                   <div class="control-group">
-                      <label class="control-label">名称</label>
                       <div class="controls">
-                          <input type="text" name='event_name' class="input-xlarge">
+                          <label class="control-label">名称</label>
+                          <input type="text" name='event_name' class="input-xlarge" style="margin-left: 28px;width:200px;">
                           <span style="color:red">{{ event_name }}</span>
                       </div>
                   </div>
 
-                  <div class="control-group">
-                      <label class="control-label">地址</label>
+                  <div class="control-group"  style="margin-top: 20px;">
                       <div class="controls">
-                          <input type="text" name='event_address' class="input-xlarge">
+                          <label class="control-label">地址</label>
+                          <input type="text" name='event_address' class="input-xlarge" style="margin-left: 28px;width:200px;">
                           <span style="color:red">{{ event_address }}</span>
                       </div>
                   </div>
 
-                  <div class="control-group">
-                      <label class="control-label">参加人数</label>
+                  <div class="control-group" style="margin-top: 20px;">
                       <div class="controls">
-                          <input type="text" name='event_limit' class="input-xlarge">
+                          <label class="control-label">参加人数</label>
+                          <input type="text" name='event_limit' class="input-xlarge" style="width:200px;">
                           <span style="color:red">{{ event_limit }}</span>
                       </div>
                   </div>
 
 
-                  <div class="control-group">
-                      <label class="control-label">状态</label>
+                  <div class="control-group" style="margin-top: 20px;">
                       <div class="controls" style="height:30px;">
-                          <label class="radio inline" style="left: 50px;float: left">
+                          <label class="control-label" style="left: 40px;float: left">状态</label>
+                          <label class="radio inline" style="left: 60px;float: left">
                                 <input type="radio" value="1" checked="checked" name="event_status">开启
                           </label>
-                          <label class="radio inline" style="left: 80px;float: left;">
+                          <label class="radio inline" style="left: 90px;float: left;">
                                 <input type="radio" value="0" name="event_status">关闭
                           </label>
                       </div>
                   </div>
 
-                  <div class="control-group" style="margin-left:20px;float: left">
+                  <div class="control-group" style="margin-left:20px;margin-top:20px;">
                       <div class="controls">
                         <button class="btn btn-success">保存</button>
                       </div>
                   </div>
+
+
+
               </fieldset>
           </form>
 
@@ -125,13 +128,13 @@
                       <thead>
 
                           <tr>
-                              <th>id</th>
-                              <th>名称</th>
-                              <th>地址</th>
-                              <th>状态</th>
-                              <th>时间</th>
-                              <th>签到</th>
-                              <th>操作</th>
+                              <th style="text-align:center;vertical-align: middle">id</th>
+                              <th style="text-align:center;vertical-align: middle">名称</th>
+                              <th style="text-align:center;vertical-align: middle">地址</th>
+                              <th style="text-align:center;vertical-align: middle">状态</th>
+                              <th style="text-align:center;vertical-align: middle">时间</th>
+                              <th style="text-align:center;vertical-align: middle">签到</th>
+                              <th style="align:le">操作</th>
                           </tr>
                       </thead>
 
@@ -143,8 +146,17 @@
                               <td>{{ event.id}}</td>
                               <td>{{ event.name}}</td>
                               <td>{{ event.address}}</td>
-                              <td>{{ event.status}}</td>
-                              <td>{{ event.start_time}}</td>
+                              <td>{% if event.status == True %}
+
+                                  <span>开启</span>
+
+                                  {% elif event.status == False %}
+
+                                  <span>禁用</span>
+
+                                  {% endif %}
+                              </td>
+                              <td>{{ event.start_time | date:"Y-m-d H:i:s"}}</td>
                               <td><a href="/sign_index/{{ event.id }}/" target="{{ event.id }}_blank">sign</a></td>
                               <td>
                                   <a href="#">

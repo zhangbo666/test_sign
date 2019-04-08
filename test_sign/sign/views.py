@@ -30,7 +30,8 @@ def event_manage(request):
 
     username = request.session.get('user','')
 
-    events = Event.objects.all()
+    # events = Event.objects.all()
+    events = Event.objects.order_by('id') #按照id升序
 
     paginator = Paginator(events,5)
 
@@ -84,7 +85,7 @@ def search_name(request):
 
     search_name = request.GET.get('name','')
 
-    events = Event.objects.filter(name__contains=search_name)
+    events = Event.objects.filter(name__contains=search_name).order_by('id') #按照id升序
 
 
     if len(events) == 0:
@@ -208,7 +209,8 @@ def guest_manage(request):
 
     username = request.session.get('user','')
 
-    guests = Guest.objects.all()
+    # guests = Guest.objects.all()
+    guests = Guest.objects.order_by('id') #按照id升序
 
     paginator = Paginator(guests,5)
 
@@ -249,13 +251,13 @@ def search_phone(request):
 
     search_phone = request.GET.get('phone','')
 
-    guests = Guest.objects.filter(phone__contains=search_phone)
+    guests = Guest.objects.filter(phone__contains=search_phone).order_by('id') #按照id升序
 
     if len(guests) == 0:
 
         return render(request,"guest_manage.html",{"user":username,"type":"list",
                                                    "search_result":"result_not",
-                                                   "hint":"搜索'手机号'查询结果为空"})
+                                                   "hint":"搜索嘉宾查询结果为空，请重新查询！！！"})
 
     paginator = Paginator(guests,5)
 
@@ -275,7 +277,7 @@ def search_phone(request):
         contacts = paginator.page(paginator.num_pages)
 
     return render(request,"guest_manage.html",{"user":username,"guests":contacts,
-                                               "type":"list","search_result":"result_not",
+                                               "type":"list","search_result":"result_data",
                                                "phone":search_phone})
 
 
@@ -283,9 +285,11 @@ def search_phone(request):
 @login_required
 def add_guest(request):
 
+    events = Event.objects.all()
+
     if request.method == 'GET':
 
-        return render(request,"guest_manage.html",{"type":"add"})
+        return render(request,"guest_manage.html",{"type":"add","events":events})
 
     elif request.method == 'POST':
 
@@ -297,24 +301,34 @@ def add_guest(request):
 
         guest_status = request.POST.get("guest_status","")
 
+        event_name = request.POST.get("event_name","")
+
+        event_id   = Event.objects.get(name=event_name)
+
+        event_id   = event_id.id
+
         if guest_name == "":
 
-            return render(request,"event_manage.html",{"type":"add","guest_name":"发布会名称不能为空"})
+            return render(request,"guest_manage.html",{"type":"add","guest_name":"嘉宾姓名不能为空"})
 
         elif guest_phone == "":
 
-            return render(request,"event_manage.html",{"type":"add","guest_phone":"发布会地址不能为空"})
+            return render(request,"guest_manage.html",{"type":"add","guest_phone":"嘉宾手机号不能为空"})
 
         elif guest_email == "":
 
-            return render(request,"event_manage.html",{"type":"add","guest_email":"发布会参加人数不能为空"})
+            return render(request,"guest_manage.html",{"type":"add","guest_email":"嘉宾邮箱不能为空"})
+
+        elif event_name == "":
+
+            return render(request,"guest_manage.html",{"type":"add","event_name":"嘉宾关联发布会未选择"})
 
         else:
 
-            Event.objects.create(name=event_name,address=event_address,status=event_status,limit=event_limit,
-                                 start_time=datetime(2019,4,3,00,10,00))
+            Guest.objects.create(realname=guest_name,phone=guest_phone,email=guest_email,
+                                 sign=guest_status,event_id=event_id,create_time=datetime(2019,4,9,1,10,00))
 
-            return HttpResponseRedirect("/event_manage/")
+            return HttpResponseRedirect("/guest_manage/")
 
 
 

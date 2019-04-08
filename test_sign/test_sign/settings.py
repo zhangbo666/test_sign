@@ -79,24 +79,24 @@ WSGI_APPLICATION = 'test_sign.wsgi.application'
 
 # sqlite3 config
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # mysql config
 # django2.0可以用django1.0的 pymysql、也可以用新的访问mysql方式）
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': os.path.join(BASE_DIR+'/my.cnf'),
-        },
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'OPTIONS': {
+#             'read_default_file': os.path.join(BASE_DIR+'/my.cnf'),
+#         },
+#     }
+# }
 
 
 # DATABASES = {
