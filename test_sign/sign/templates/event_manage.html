@@ -175,25 +175,25 @@
 
 
       <!--编辑发布会-->
-{#      {% if type == "edit" %}#}
-{##}
-{#          <div class="container" style="margin-left:400px;margin-top: 160px; width:200px;">#}
-{##}
-{#              <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">#}
-{##}
-{#                  <h3>编辑项目</h3>#}
-{##}
-{#                  <form action="/event_manage/edit_event/{{ pid }}/" method="post">#}
-{##}
-{#                    {{ form.as_p }}#}
-{##}
-{#                    <input class="btn btn-success" type="submit" value="修改">#}
-{##}
-{#                  </form>#}
-{#              </div>#}
-{#          </div>#}
-{##}
-{#      {% endif %}#}
+      <!--{% if type == "edit" %}-->
+
+          <!--<div class="container" style="margin-left:400px;margin-top: 160px; width:200px;">#}-->
+
+              <!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+
+                  <!--<h3>编辑项目</h3>-->
+
+                 <!--<form action="/event_manage/edit_event/{{ pid }}/" method="post">-->
+
+                    <!--{{ form.as_p }}-->
+
+                    <!--<input class="btn btn-success" type="submit" value="修改">-->
+
+                 <!--</form>-->
+              <!--</div>-->
+         <!--</div>-->
+
+      <!--{% endif %}-->
 
 
       <!--编辑发布会-->
@@ -201,30 +201,32 @@
 
           <h3>修改发布会</h3>
 
-          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/event_manage/edit_event/">
+          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/event_manage/edit_event/{{ pid }}/">
               <fieldset>
-
                   <div class="control-group">
                       <div class="controls">
                           <label class="control-label">名称</label>
-                          <input type="text" name='event_name' class="input-xlarge" style="margin-left: 28px;width:200px;">{{ event_name }}
-{#                          <span style="color:red">{{ event_name }}</span>#}
+                          <textarea type="text" name='event_name' class="input-xlarge"
+                                    style="margin-left: 28px;width:300px;height: 30px;">{{ event_name }}</textarea>
+{#                        <span style="color:red">{{ event_name }}</span>#}
                       </div>
                   </div>
 
                   <div class="control-group"  style="margin-top: 20px;">
                       <div class="controls">
                           <label class="control-label">地址</label>
-                          <input type="text" name='event_address' class="input-xlarge" style="margin-left: 28px;width:200px;">{{ event_address }}
-{#                          <span style="color:red">{{ event_address }}</span>#}
+                          <textarea type="text" name='event_address' class="input-xlarge"
+                                    style="margin-left: 28px;width:300px;height: 30px;">{{ event_address }}</textarea>
+{#                        <span style="color:red">{{ event_address }}</span>#}
                       </div>
                   </div>
 
                   <div class="control-group" style="margin-top: 20px;">
                       <div class="controls">
                           <label class="control-label">参加人数</label>
-                          <input type="text" name='event_limit' class="input-xlarge" style="width:200px;">{{ event_limit }}
-{#                          <span style="color:red">{{ event_limit }}</span>#}
+                          <textarea type="text" name='event_limit' class="input-xlarge"
+                                    style="width:120px;height: 30px;">{{ event_limit }}</textarea>
+{#                        <span style="color:red">{{ event_limit }}</span>#}
                       </div>
                   </div>
 
@@ -232,12 +234,23 @@
                   <div class="control-group" style="margin-top: 20px;">
                       <div class="controls" style="height:30px;">
                           <label class="control-label" style="left: 40px;float: left">状态</label>
-                          <label class="radio inline" style="left: 60px;float: left">
-                                <input type="radio" value="1" checked="checked" name="event_status">开启
-                          </label>
-                          <label class="radio inline" style="left: 90px;float: left;">
-                                <input type="radio" value="0" name="event_status">关闭
-                          </label>
+
+                          {% if event_status == True %}
+                              <label class="radio inline" style="left: 60px;float: left">
+                                    <input type="radio" value="1" checked="checked" name="event_status">开启
+                              </label>
+                              <label class="radio inline" style="left: 90px;float: left;">
+                                    <input type="radio" value="0" name="event_status">关闭
+                              </label>
+                          {% else %}
+                              <label class="radio inline" style="left: 60px;float: left">
+                                    <input type="radio" value="1" name="event_status">开启
+                              </label>
+                              <label class="radio inline" style="left: 90px;float: left;">
+                                    <input type="radio" value="0" checked=="checked" name="event_status">关闭
+                              </label>
+                          {% endif %}
+
                       </div>
                   </div>
 

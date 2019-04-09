@@ -41,74 +41,6 @@
           </div>
       </nav>
 
-      <!--嘉宾添加-->
-      {% if type == "add" %}
-
-          <h3>添加嘉宾</h3>
-
-          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/guest_manage/add_guest/">
-              <fieldset>
-                  <div class="control-group">
-                      <div class="controls">
-                          <label class="control-label">姓名</label>
-                          <input type="text" name='guest_name' class="input-xlarge" style="margin-left: 28px;width:200px;">
-                          <span style="color:red">{{ guest_name }}</span>
-                      </div>
-                  </div>
-
-                  <div class="control-group" style="margin-top: 20px;">
-                      <div class="controls">
-                          <label class="control-label">手机号</label>
-                          <input type="text" name='guest_phone' class="input-xlarge" style="margin-left: 14px;width:200px;">
-                          <span style="color:red">{{ guest_phone }}</span>
-                      </div>
-                  </div>
-
-                  <div class="control-group" style="margin-top: 20px;">
-                      <div class="controls">
-                          <label class="control-label">邮箱</label>
-                          <input type="text" name='guest_email' class="input-xlarge" style="margin-left: 28px;width:200px;">
-                          <span style="color:red">{{ guest_email }}</span>
-                      </div>
-                  </div>
-
-                  <div class="control-group" style="margin-top: 20px;">
-                      <div class="controls">
-                          <label class="control-label" style="left: 40px;float: left">发布会名称</label>
-                          <select class="form-control" name="event_name" style="width:200px;">
-                              {% for event in events %}
-                              <option>{{ event.name }}</option>
-                              {% endfor %}
-                          </select>
-                          <span style="color:red">{{ event_name }}</span>
-
-
-                      </div>
-
-                  </div>
-
-                  <div class="control-group" style="margin-top: 20px;">
-                      <div class="controls" style="height:30px;">
-                          <label class="control-label" style="left: 40px;float: left">状态</label>
-                          <label class="radio inline" style="left: 60px;float: left">
-                                <input type="radio" value="1" checked="checked" name="guest_status">开启
-                          </label>
-                          <label class="radio inline" style="left: 90px;float: left;">
-                                <input type="radio" value="0" name="guest_status">关闭
-                          </label>
-                      </div>
-                  </div>
-
-                  <div class="control-group" style="margin-left:20px;margin-top:20px;">
-                      <div class="controls">
-                        <button class="btn btn-success">保存</button>
-                      </div>
-                  </div>
-              </fieldset>
-          </form>
-
-      {% endif %}
-
 
       <!--嘉宾表单list-->
       {% if type == "list" %}
@@ -158,7 +90,8 @@
                               <td>{{ guest.realname}}</td>
                               <td>{{ guest.phone}}</td>
                               <td>{{ guest.email}}</td>
-                              <td>{% if guest.sign == True %}
+                              <td>
+                                  {% if guest.sign == True %}
 
                                   <span>开启</span>
 
@@ -180,6 +113,75 @@
      </div>
 
       {% endif %}
+
+
+      <!--嘉宾添加-->
+      {% if type == "add" %}
+
+          <h3>添加嘉宾</h3>
+
+          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/guest_manage/add_guest/">
+              <fieldset>
+                  <div class="control-group">
+                      <div class="controls">
+                          <label class="control-label">姓名</label>
+                          <input type="text" name='guest_name' class="input-xlarge" style="margin-left: 28px;width:200px;">
+                          <span style="color:red">{{ guest_name }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls">
+                          <label class="control-label">手机号</label>
+                          <input type="text" name='guest_phone' class="input-xlarge" style="margin-left: 14px;width:200px;">
+                          <span style="color:red">{{ guest_phone }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls">
+                          <label class="control-label">邮箱</label>
+                          <input type="text" name='guest_email' class="input-xlarge" style="margin-left: 28px;width:200px;">
+                          <span style="color:red">{{ guest_email }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls">
+                          <label class="control-label" style="left: 40px;float: left">发布会名称</label>
+                          <select class="form-control" name="event_name" style="width:200px;">
+                              {% for event in events %}
+                              <option>{{ event.name }}</option>
+                              {% endfor %}
+                          </select>
+                          <span style="color:red">{{ event_name }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls" style="height:30px;">
+                          <label class="control-label" style="left: 40px;float: left">状态</label>
+                          <label class="radio inline" style="left: 60px;float: left">
+                                <input type="radio" value="1" checked="checked" name="guest_status">开启
+                          </label>
+                          <label class="radio inline" style="left: 90px;float: left;">
+                                <input type="radio" value="0" name="guest_status">关闭
+                          </label>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-left:20px;margin-top:20px;">
+                      <div class="controls">
+                        <button class="btn btn-success">保存</button>
+                      </div>
+                  </div>
+              </fieldset>
+          </form>
+
+      {% endif %}
+
+
+
 
 
       <!--嘉宾分页器-->

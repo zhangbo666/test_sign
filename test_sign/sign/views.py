@@ -205,13 +205,13 @@ def edit_event(request, pid):
 
         if pid:
 
-            event_name = Event.objects.get(id=pid)
+            event_name = Event.objects.get(id=pid).name
             event_address = Event.objects.get(id=pid).address
             event_status = Event.objects.get(id=pid).status
-            print (event_status)
             event_limit = Event.objects.get(id=pid).limit
 
-            return render(request, "event_manage.html", {"type":"edit","event_name":event_name,
+            return render(request, "event_manage.html", {"type":"edit","pid":pid,
+                                                         "event_name":event_name.strip(),
                                                          "event_address":event_address,
                                                          "event_status":event_status,
                                                          "event_limit":event_limit})
@@ -226,17 +226,19 @@ def edit_event(request, pid):
 
         event_limit = request.POST.get("event_limit","")
 
-        # p_update.name = name
-        #
-        # p_update.limit = limit
-        #
-        # p_update.status = status
-        #
-        # p_update.address = address
-        #
-        # p_update.save()
+        event_info = Event.objects.get(id=pid)
 
-    return HttpResponseRedirect("/event_manage/")
+        event_info.name = event_name
+
+        event_info.address = event_address
+
+        event_info.status = event_status
+
+        event_info.limit = event_limit
+
+        event_info.save()
+
+        return HttpResponseRedirect("/event_manage/")
 
 
 
@@ -373,7 +375,7 @@ def search_phone(request):
 @login_required
 def add_guest(request):
 
-    events = Event.objects.all()
+    events = Event.objects.all().order_by('id')
 
     if request.method == 'GET':
 
