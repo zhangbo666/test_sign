@@ -14,6 +14,8 @@ from django.shortcuts import get_object_or_404
 
 from datetime import datetime
 
+from sign.forms import EventForm
+
 
 # Create your views here.
 
@@ -152,6 +154,92 @@ def add_event(request):
                                  start_time=datetime(2019,4,3,00,10,00))
 
             return HttpResponseRedirect("/event_manage/")
+
+# 编辑发布会
+# @login_required
+# def edit_event(request, pid):
+#
+#     if request.method == 'GET':
+#
+#         if pid:
+#
+#             pro = Event.objects.get(id=pid)
+#
+#             form = EventForm(instance=pro)
+#
+#             return render(request, "event_manage.html", {"type": "edit", "form": form, "pid": pid})
+#
+#     elif request.method == 'POST':
+#
+#         form = EventForm(request.POST)
+#
+#         if form.is_valid():
+#
+#             name = form.cleaned_data['name']
+#
+#             limit = form.cleaned_data['limit']
+#
+#             address = form.cleaned_data['address']
+#
+#             status = form.cleaned_data['status']
+#
+#             p_update = Event.objects.get(id=pid)
+#
+#             p_update.name = name
+#
+#             p_update.limit = limit
+#
+#             p_update.status = status
+#
+#             p_update.address = address
+#
+#             p_update.save()
+#
+#     return HttpResponseRedirect("/event_manage/")
+
+# 编辑发布会
+@login_required
+def edit_event(request, pid):
+
+    if request.method == 'GET':
+
+        if pid:
+
+            event_name = Event.objects.get(id=pid)
+            event_address = Event.objects.get(id=pid).address
+            event_status = Event.objects.get(id=pid).status
+            print (event_status)
+            event_limit = Event.objects.get(id=pid).limit
+
+            return render(request, "event_manage.html", {"type":"edit","event_name":event_name,
+                                                         "event_address":event_address,
+                                                         "event_status":event_status,
+                                                         "event_limit":event_limit})
+
+    elif request.method == 'POST':
+
+        event_name = request.POST.get("event_name","")
+
+        event_address = request.POST.get("event_address","")
+
+        event_status = request.POST.get("event_status","")
+
+        event_limit = request.POST.get("event_limit","")
+
+        # p_update.name = name
+        #
+        # p_update.limit = limit
+        #
+        # p_update.status = status
+        #
+        # p_update.address = address
+        #
+        # p_update.save()
+
+    return HttpResponseRedirect("/event_manage/")
+
+
+
 
 
 # 发布会管理系统退出

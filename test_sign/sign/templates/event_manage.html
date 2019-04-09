@@ -38,65 +38,6 @@
           </div>
       </nav>
 
-      <!--发布会添加-->
-      {% if type == "add" %}
-
-          <h3>添加项目</h3>
-
-          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/event_manage/add_event/">
-              <fieldset>
-                  <div class="control-group">
-                      <div class="controls">
-                          <label class="control-label">名称</label>
-                          <input type="text" name='event_name' class="input-xlarge" style="margin-left: 28px;width:200px;">
-                          <span style="color:red">{{ event_name }}</span>
-                      </div>
-                  </div>
-
-                  <div class="control-group"  style="margin-top: 20px;">
-                      <div class="controls">
-                          <label class="control-label">地址</label>
-                          <input type="text" name='event_address' class="input-xlarge" style="margin-left: 28px;width:200px;">
-                          <span style="color:red">{{ event_address }}</span>
-                      </div>
-                  </div>
-
-                  <div class="control-group" style="margin-top: 20px;">
-                      <div class="controls">
-                          <label class="control-label">参加人数</label>
-                          <input type="text" name='event_limit' class="input-xlarge" style="width:200px;">
-                          <span style="color:red">{{ event_limit }}</span>
-                      </div>
-                  </div>
-
-
-                  <div class="control-group" style="margin-top: 20px;">
-                      <div class="controls" style="height:30px;">
-                          <label class="control-label" style="left: 40px;float: left">状态</label>
-                          <label class="radio inline" style="left: 60px;float: left">
-                                <input type="radio" value="1" checked="checked" name="event_status">开启
-                          </label>
-                          <label class="radio inline" style="left: 90px;float: left;">
-                                <input type="radio" value="0" name="event_status">关闭
-                          </label>
-                      </div>
-                  </div>
-
-                  <div class="control-group" style="margin-left:20px;margin-top:20px;">
-                      <div class="controls">
-                        <button class="btn btn-success">保存</button>
-                      </div>
-                  </div>
-
-
-
-              </fieldset>
-          </form>
-
-      {% endif %}
-
-
-
       <!--发布会表单list-->
       {% if type == "list" %}
 
@@ -159,7 +100,7 @@
                               <td>{{ event.start_time | date:"Y-m-d H:i:s"}}</td>
                               <td><a href="/sign_index/{{ event.id }}/" target="{{ event.id }}_blank">sign</a></td>
                               <td>
-                                  <a href="#">
+                                  <a href="/event_manage/edit_event/{{ event.id }}/">
                                       <i class="glyphicon glyphicon-pencil">编辑</i>
                                   </a>
                                   <a href="#" style="margin-left:20px;">
@@ -177,6 +118,138 @@
 
      {% endif %}
 
+
+      <!--发布会添加-->
+      {% if type == "add" %}
+
+          <h3>添加项目</h3>
+
+          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/event_manage/add_event/">
+              <fieldset>
+                  <div class="control-group">
+                      <div class="controls">
+                          <label class="control-label">名称</label>
+                          <input type="text" name='event_name' class="input-xlarge" style="margin-left: 28px;width:200px;">
+                          <span style="color:red">{{ event_name }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group"  style="margin-top: 20px;">
+                      <div class="controls">
+                          <label class="control-label">地址</label>
+                          <input type="text" name='event_address' class="input-xlarge" style="margin-left: 28px;width:200px;">
+                          <span style="color:red">{{ event_address }}</span>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls">
+                          <label class="control-label">参加人数</label>
+                          <input type="text" name='event_limit' class="input-xlarge" style="width:200px;">
+                          <span style="color:red">{{ event_limit }}</span>
+                      </div>
+                  </div>
+
+
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls" style="height:30px;">
+                          <label class="control-label" style="left: 40px;float: left">状态</label>
+                          <label class="radio inline" style="left: 60px;float: left">
+                                <input type="radio" value="1" checked="checked" name="event_status">开启
+                          </label>
+                          <label class="radio inline" style="left: 90px;float: left;">
+                                <input type="radio" value="0" name="event_status">关闭
+                          </label>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-left:20px;margin-top:20px;">
+                      <div class="controls">
+                        <button class="btn btn-success">保存</button>
+                      </div>
+                  </div>
+              </fieldset>
+          </form>
+
+      {% endif %}
+
+
+      <!--编辑发布会-->
+{#      {% if type == "edit" %}#}
+{##}
+{#          <div class="container" style="margin-left:400px;margin-top: 160px; width:200px;">#}
+{##}
+{#              <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">#}
+{##}
+{#                  <h3>编辑项目</h3>#}
+{##}
+{#                  <form action="/event_manage/edit_event/{{ pid }}/" method="post">#}
+{##}
+{#                    {{ form.as_p }}#}
+{##}
+{#                    <input class="btn btn-success" type="submit" value="修改">#}
+{##}
+{#                  </form>#}
+{#              </div>#}
+{#          </div>#}
+{##}
+{#      {% endif %}#}
+
+
+      <!--编辑发布会-->
+      {% if type == "edit" %}
+
+          <h3>修改发布会</h3>
+
+          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/event_manage/edit_event/">
+              <fieldset>
+
+                  <div class="control-group">
+                      <div class="controls">
+                          <label class="control-label">名称</label>
+                          <input type="text" name='event_name' class="input-xlarge" style="margin-left: 28px;width:200px;">{{ event_name }}
+{#                          <span style="color:red">{{ event_name }}</span>#}
+                      </div>
+                  </div>
+
+                  <div class="control-group"  style="margin-top: 20px;">
+                      <div class="controls">
+                          <label class="control-label">地址</label>
+                          <input type="text" name='event_address' class="input-xlarge" style="margin-left: 28px;width:200px;">{{ event_address }}
+{#                          <span style="color:red">{{ event_address }}</span>#}
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls">
+                          <label class="control-label">参加人数</label>
+                          <input type="text" name='event_limit' class="input-xlarge" style="width:200px;">{{ event_limit }}
+{#                          <span style="color:red">{{ event_limit }}</span>#}
+                      </div>
+                  </div>
+
+
+                  <div class="control-group" style="margin-top: 20px;">
+                      <div class="controls" style="height:30px;">
+                          <label class="control-label" style="left: 40px;float: left">状态</label>
+                          <label class="radio inline" style="left: 60px;float: left">
+                                <input type="radio" value="1" checked="checked" name="event_status">开启
+                          </label>
+                          <label class="radio inline" style="left: 90px;float: left;">
+                                <input type="radio" value="0" name="event_status">关闭
+                          </label>
+                      </div>
+                  </div>
+
+                  <div class="control-group" style="margin-left:20px;margin-top:20px;">
+                      <div class="controls">
+                        <button class="btn btn-success">修改</button>
+                      </div>
+                  </div>
+              </fieldset>
+          </form>
+
+      {% endif %}
 
       <!--发布会分页器-->
       <div style="text-align: center;">

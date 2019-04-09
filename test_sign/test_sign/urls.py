@@ -25,6 +25,7 @@ urlpatterns = [
 
     path('event_manage/',views.event_manage),
     path('event_manage/add_event/',views.add_event),
+    path('event_manage/edit_event/<int:pid>/',views.edit_event),
 
     path('accounts/login/',views.index),
     path('logout/',views.logout),
