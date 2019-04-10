@@ -97,7 +97,7 @@
 
                                   {% endif %}
                               </td>
-                              <td>{{ event.start_time | date:"Y-m-d H:i:s"}}</td>
+                              <td>{{ event.start_time | date:"Y-m-d H:i:s" }}</td>
                               <td><a href="/sign_index/{{ event.id }}/" target="{{ event.id }}_blank">sign</a></td>
                               <td>
                                   <a href="/event_manage/edit_event/{{ event.id }}/">
@@ -208,7 +208,7 @@
                           <label class="control-label">名称</label>
                           <textarea type="text" name='event_name' class="input-xlarge"
                                     style="margin-left: 28px;width:300px;height: 30px;">{{ event_name }}</textarea>
-{#                        <span style="color:red">{{ event_name }}</span>#}
+                          <span style="color:red">{{ event_name_error }}</span>
                       </div>
                   </div>
 
@@ -217,7 +217,7 @@
                           <label class="control-label">地址</label>
                           <textarea type="text" name='event_address' class="input-xlarge"
                                     style="margin-left: 28px;width:300px;height: 30px;">{{ event_address }}</textarea>
-{#                        <span style="color:red">{{ event_address }}</span>#}
+                          <span style="color:red">{{ event_address_error }}</span>
                       </div>
                   </div>
 
@@ -226,7 +226,7 @@
                           <label class="control-label">参加人数</label>
                           <textarea type="text" name='event_limit' class="input-xlarge"
                                     style="width:120px;height: 30px;">{{ event_limit }}</textarea>
-{#                        <span style="color:red">{{ event_limit }}</span>#}
+                          <span style="color:red">{{ event_limit_error }}</span>
                       </div>
                   </div>
 

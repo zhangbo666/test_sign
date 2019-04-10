@@ -211,7 +211,7 @@ def edit_event(request, pid):
             event_limit = Event.objects.get(id=pid).limit
 
             return render(request, "event_manage.html", {"type":"edit","pid":pid,
-                                                         "event_name":event_name.strip(),
+                                                         "event_name":event_name,
                                                          "event_address":event_address,
                                                          "event_status":event_status,
                                                          "event_limit":event_limit})
@@ -226,19 +226,41 @@ def edit_event(request, pid):
 
         event_limit = request.POST.get("event_limit","")
 
-        event_info = Event.objects.get(id=pid)
+        if event_name == "":
 
-        event_info.name = event_name
+            return render(request,"event_manage.html",{"type":"edit","event_name_error":"发布会名称不能为空",
+                                                       "event_address":event_address,
+                                                       "event_status":event_status,
+                                                       "event_limit":event_limit})
 
-        event_info.address = event_address
+        elif event_address == "":
 
-        event_info.status = event_status
+            return render(request,"event_manage.html",{"type":"edit","event_address_error":"发布会地址不能为空",
+                                                       "event_name": event_name,
+                                                       "event_status": event_status,
+                                                       "event_limit": event_limit})
 
-        event_info.limit = event_limit
+        elif event_limit == "":
 
-        event_info.save()
+            return render(request,"event_manage.html",{"type":"edit","event_limit_error":"发布会参加人数不能为空",
+                                                       "event_name": event_name,
+                                                       "event_address": event_address,
+                                                       "event_status": event_status})
+        else:
 
-        return HttpResponseRedirect("/event_manage/")
+            event_info = Event.objects.get(id=pid)
+
+            event_info.name = event_name
+
+            event_info.address = event_address
+
+            event_info.status = event_status
+
+            event_info.limit = event_limit
+
+            event_info.save()
+
+            return HttpResponseRedirect("/event_manage/")
 
 
 
