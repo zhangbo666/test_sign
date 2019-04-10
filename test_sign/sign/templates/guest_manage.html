@@ -79,6 +79,7 @@
                               <th>签到状态</th>
                               <th>创建时间</th>
                               <th>发布会id</th>
+                              <th>操作</th>
                           </tr>
                       </thead>
 
@@ -103,6 +104,14 @@
                               </td>
                               <td>{{ guest.create_time | date:"Y-m-d H:i:s"}}</td>
                               <td>{{ guest.event }}</td>
+                              <td>
+                                  <a href="/guest_manage/edit_guest/{{ guest.id }}/">
+                                      <i class="glyphicon glyphicon-pencil">编辑</i>
+                                  </a>
+                                  <a href="#" style="margin-left:20px;">
+                                      <i class="glyphicon glyphicon-trash">删除</i>
+                                  </a>
+                              </td>
                           </tr>
                           {% endfor %}
                       </tbody>
@@ -149,11 +158,25 @@
                   <div class="control-group" style="margin-top: 20px;">
                       <div class="controls">
                           <label class="control-label" style="left: 40px;float: left">发布会名称</label>
+
+                          {% if guest_name or guest_phone or guest_email %}
+
                           <select class="form-control" name="event_name" style="width:200px;">
                               {% for event in events %}
                               <option>{{ event.name }}</option>
                               {% endfor %}
                           </select>
+
+                          {% else %}
+
+                          <select class="form-control" name="event_name" style="width:200px;">
+                              {% for event in events %}
+                              <option>{{ event.name }}</option>
+                              {% endfor %}
+                          </select>
+
+                          {% endif %}
+
                           <span style="color:red">{{ event_name }}</span>
                       </div>
                   </div>
@@ -180,6 +203,82 @@
 
       {% endif %}
 
+
+      <!--编辑嘉宾-->
+      <div class="container-fluid">
+
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+              {% if type == "edit" %}
+
+              <div class="container" style="margin-left:300px;margin-top: 200px;">
+
+                  <h3>编辑嘉宾</h3>
+
+                  <form action="/guest_manage/edit_guest/{{ pid }}/" method="post"
+                        style="margin-top: 20px;">
+
+                      <fieldset>
+
+                          <div class="control-group">
+
+                              <div class="controls">
+                                  <label class="control-label">嘉宾名称:</label>
+                                  <label style="margin-left: 20px;">{{ form.realname }}</label>
+                              </div>
+
+                          </div>
+
+                          <!--<div class="control-group">-->
+
+                              <!--<div class="controls">-->
+                                  <!--<label class="control-label">嘉宾手机号:</label>-->
+                                  <!--<label style="margin-left: 20px;">{{ form.phone }}</label>-->
+                              <!--</div>-->
+
+                          <!--</div>-->
+
+                          <div class="control-group">
+
+                              <div class="controls">
+                                  <label class="control-label">嘉宾邮箱:</label>
+                                  <label style="margin-left: 20px;width: 200px;">{{ form.email }}</label>
+                              </div>
+
+                          </div>
+
+                          <div class="control-group">
+
+                              <div class="controls">
+                                  <label class="control-label">嘉宾状态:</label>
+                                  <label style="margin-left: 20px;">{{ form.sign }}</label>
+                              </div>
+
+                          </div>
+
+                          <div class="control-group">
+
+                              <div class="controls">
+                                  <label class="control-label">嘉宾所属发布会:</label>
+                                  <label style="margin-left: 20px;">{{ form.event }}</label>
+                              </div>
+
+                          </div>
+
+
+                      </fieldset>
+
+                    <input class="btn btn-success" type="submit" value="修改">
+
+                  </form>
+
+              </div>
+
+              {% endif %}
+
+          </div>
+
+      </div>
 
 
 

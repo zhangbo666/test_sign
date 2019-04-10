@@ -34,6 +34,7 @@ urlpatterns = [
 
     path('guest_manage/',views.guest_manage),
     path('guest_manage/add_guest/',views.add_guest),
+    path('guest_manage/edit_guest/<int:pid>/',views.edit_guest),
 
     path('sign_index/<int:event_id>/',views.sign_index),
     path('sign_index_action/<int:event_id>/',views.sign_index_action),

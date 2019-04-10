@@ -6,19 +6,19 @@ from django.db import models
 class Event(models.Model):
 
     #发布会标题
-    name = models.CharField(max_length=100)
+    name = models.CharField("发布会名称",max_length=100)
 
     #发布会参加人数
-    limit = models.IntegerField()
+    limit = models.IntegerField("发布会人数")
 
     #发布会状态
-    status = models.BooleanField()
+    status = models.BooleanField("发布会状态")
 
     #发布会地址
-    address = models.CharField(max_length=200)
+    address = models.CharField("发布会地址",max_length=200)
 
     #发布会时间
-    start_time = models.DateTimeField()
+    start_time = models.DateTimeField("发布会时间")
 
     #发布会创建时间
     create_time = models.DateTimeField(auto_now=True)
@@ -47,16 +47,16 @@ class Guest(models.Model):
     event = models.ForeignKey(Event,on_delete=models.CASCADE)
 
     #姓名
-    realname = models.CharField(max_length=64)
+    realname = models.CharField("嘉宾姓名",max_length=64)
 
     #手机号
-    phone = models.CharField(max_length=16)
+    phone = models.CharField("嘉宾手机号",max_length=16)
 
     #邮箱
-    email = models.EmailField()
+    email = models.EmailField("嘉宾邮箱",)
 
     #签到状态
-    sign = models.BooleanField()
+    sign = models.BooleanField("嘉宾签到状态")
 
     #创建时间（自动获取当前时间)
     create_time = models.DateTimeField(auto_now=True)

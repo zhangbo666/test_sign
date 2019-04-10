@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404
 
 from datetime import datetime
 
-from sign.forms import EventForm
+from sign.forms import EventForm,GuestForm
 
 
 # Create your views here.
@@ -156,48 +156,6 @@ def add_event(request):
             return HttpResponseRedirect("/event_manage/")
 
 # 编辑发布会
-# @login_required
-# def edit_event(request, pid):
-#
-#     if request.method == 'GET':
-#
-#         if pid:
-#
-#             pro = Event.objects.get(id=pid)
-#
-#             form = EventForm(instance=pro)
-#
-#             return render(request, "event_manage.html", {"type": "edit", "form": form, "pid": pid})
-#
-#     elif request.method == 'POST':
-#
-#         form = EventForm(request.POST)
-#
-#         if form.is_valid():
-#
-#             name = form.cleaned_data['name']
-#
-#             limit = form.cleaned_data['limit']
-#
-#             address = form.cleaned_data['address']
-#
-#             status = form.cleaned_data['status']
-#
-#             p_update = Event.objects.get(id=pid)
-#
-#             p_update.name = name
-#
-#             p_update.limit = limit
-#
-#             p_update.status = status
-#
-#             p_update.address = address
-#
-#             p_update.save()
-#
-#     return HttpResponseRedirect("/event_manage/")
-
-# 编辑发布会
 @login_required
 def edit_event(request, pid):
 
@@ -205,62 +163,107 @@ def edit_event(request, pid):
 
         if pid:
 
-            event_name = Event.objects.get(id=pid).name
-            event_address = Event.objects.get(id=pid).address
-            event_status = Event.objects.get(id=pid).status
-            event_limit = Event.objects.get(id=pid).limit
+            pro = Event.objects.get(id=pid)
 
-            return render(request, "event_manage.html", {"type":"edit","pid":pid,
-                                                         "event_name":event_name,
-                                                         "event_address":event_address,
-                                                         "event_status":event_status,
-                                                         "event_limit":event_limit})
+            form = EventForm(instance=pro)
+
+            return render(request, "event_manage.html", {"type": "edit", "form": form, "pid": pid})
 
     elif request.method == 'POST':
 
-        event_name = request.POST.get("event_name","")
+        form = EventForm(request.POST)
 
-        event_address = request.POST.get("event_address","")
+        if form.is_valid():
 
-        event_status = request.POST.get("event_status","")
+            name = form.cleaned_data['name']
 
-        event_limit = request.POST.get("event_limit","")
+            limit = form.cleaned_data['limit']
 
-        if event_name == "":
+            address = form.cleaned_data['address']
 
-            return render(request,"event_manage.html",{"type":"edit","event_name_error":"发布会名称不能为空",
-                                                       "event_address":event_address,
-                                                       "event_status":event_status,
-                                                       "event_limit":event_limit})
+            status = form.cleaned_data['status']
 
-        elif event_address == "":
+            p_update = Event.objects.get(id=pid)
 
-            return render(request,"event_manage.html",{"type":"edit","event_address_error":"发布会地址不能为空",
-                                                       "event_name": event_name,
-                                                       "event_status": event_status,
-                                                       "event_limit": event_limit})
+            print (p_update)
 
-        elif event_limit == "":
+            p_update.name = name
 
-            return render(request,"event_manage.html",{"type":"edit","event_limit_error":"发布会参加人数不能为空",
-                                                       "event_name": event_name,
-                                                       "event_address": event_address,
-                                                       "event_status": event_status})
-        else:
+            p_update.limit = limit
 
-            event_info = Event.objects.get(id=pid)
+            p_update.status = status
 
-            event_info.name = event_name
+            p_update.address = address
 
-            event_info.address = event_address
+            p_update.save()
 
-            event_info.status = event_status
+    return HttpResponseRedirect("/event_manage/")
 
-            event_info.limit = event_limit
 
-            event_info.save()
-
-            return HttpResponseRedirect("/event_manage/")
+# 编辑发布会
+# @login_required
+# def edit_event(request, pid):
+#
+#     if request.method == 'GET':
+#
+#         if pid:
+#
+#             event_name = Event.objects.get(id=pid).name
+#             event_address = Event.objects.get(id=pid).address
+#             event_status = Event.objects.get(id=pid).status
+#             event_limit = Event.objects.get(id=pid).limit
+#
+#             return render(request, "event_manage.html", {"type":"edit","pid":pid,
+#                                                          "event_name":event_name,
+#                                                          "event_address":event_address,
+#                                                          "event_status":event_status,
+#                                                          "event_limit":event_limit})
+#
+#     elif request.method == 'POST':
+#
+#         event_name = request.POST.get("event_name","")
+#
+#         event_address = request.POST.get("event_address","")
+#
+#         event_status = request.POST.get("event_status","")
+#
+#         event_limit = request.POST.get("event_limit","")
+#
+#         if event_name == "":
+#
+#             return render(request,"event_manage.html",{"type":"edit","event_name_error":"发布会名称不能为空",
+#                                                        "event_address":event_address,
+#                                                        "event_status":event_status,
+#                                                        "event_limit":event_limit})
+#
+#         elif event_address == "":
+#
+#             return render(request,"event_manage.html",{"type":"edit","event_address_error":"发布会地址不能为空",
+#                                                        "event_name": event_name,
+#                                                        "event_status": event_status,
+#                                                        "event_limit": event_limit})
+#
+#         elif event_limit == "":
+#
+#             return render(request,"event_manage.html",{"type":"edit","event_limit_error":"发布会参加人数不能为空",
+#                                                        "event_name": event_name,
+#                                                        "event_address": event_address,
+#                                                        "event_status": event_status})
+#         else:
+#
+#             event_info = Event.objects.get(id=pid)
+#
+#             event_info.name = event_name
+#
+#             event_info.address = event_address
+#
+#             event_info.status = event_status
+#
+#             event_info.limit = event_limit
+#
+#             event_info.save()
+#
+#             return HttpResponseRedirect("/event_manage/")
 
 
 
@@ -421,15 +424,18 @@ def add_guest(request):
 
         if guest_name == "":
 
-            return render(request,"guest_manage.html",{"type":"add","guest_name":"嘉宾姓名不能为空"})
+            return render(request,"guest_manage.html",{"type":"add","guest_name":"嘉宾姓名不能为空",
+                                                       "events":events})
 
         elif guest_phone == "":
 
-            return render(request,"guest_manage.html",{"type":"add","guest_phone":"嘉宾手机号不能为空"})
+            return render(request,"guest_manage.html",{"type":"add","guest_phone":"嘉宾手机号不能为空",
+                                                       "events":events})
 
         elif guest_email == "":
 
-            return render(request,"guest_manage.html",{"type":"add","guest_email":"嘉宾邮箱不能为空"})
+            return render(request,"guest_manage.html",{"type":"add","guest_email":"嘉宾邮箱不能为空",
+                                                       "events":events})
 
         elif event_name == "":
 
@@ -441,6 +447,60 @@ def add_guest(request):
                                  sign=guest_status,event_id=event_id,create_time=datetime(2019,4,9,1,10,00))
 
             return HttpResponseRedirect("/guest_manage/")
+
+
+# 编辑嘉宾
+@login_required
+def edit_guest(request, pid):
+
+    if request.method == 'GET':
+
+        if pid:
+
+            pro = Guest.objects.get(id=pid)
+
+            form = GuestForm(instance=pro)
+
+            return render(request, "guest_manage.html", {"type": "edit", "form": form, "pid": pid})
+
+    elif request.method == 'POST':
+
+        form = GuestForm(request.POST)
+
+        if form.is_valid():
+
+            realname = form.cleaned_data['realname']
+
+            # phone = form.cleaned_data['phone']
+
+            email = form.cleaned_data['email']
+
+            sign = form.cleaned_data['sign']
+
+            event = form.cleaned_data['event']
+
+            p_update = Guest.objects.get(id=pid)
+
+            print ("p_update---->",p_update)
+
+            p_update.realname = realname
+
+            # p_update.phone = phone
+
+            p_update.email = email
+
+            p_update.sign = sign
+
+            p_update.event = event
+
+            p_update.save()
+
+        else:
+
+            print ("form.errors----->",form.errors)
+
+    return HttpResponseRedirect("/guest_manage/")
+
 
 
 

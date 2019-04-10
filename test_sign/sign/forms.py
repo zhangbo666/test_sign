@@ -98,8 +98,18 @@ forms django表单
 class EventForm(forms.ModelForm):
 
     class Meta:
+
         model = Event
 
         fields = ['name', 'limit', 'address','status']
+
+
+class GuestForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Guest
+
+        fields = ['realname','email','sign','event']
 
 

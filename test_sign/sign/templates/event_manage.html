@@ -175,94 +175,142 @@
 
 
       <!--编辑发布会-->
-      <!--{% if type == "edit" %}-->
+      <div class="container-fluid">
 
-          <!--<div class="container" style="margin-left:400px;margin-top: 160px; width:200px;">#}-->
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-              <!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+              {% if type == "edit" %}
 
-                  <!--<h3>编辑项目</h3>-->
+              <div class="container" style="margin-left:300px;margin-top: 200px;">
 
-                 <!--<form action="/event_manage/edit_event/{{ pid }}/" method="post">-->
+                  <h3>编辑发布会</h3>
 
-                    <!--{{ form.as_p }}-->
+                  <form action="/event_manage/edit_event/{{ pid }}/" method="post"
+                        style="margin-top: 20px;">
 
-                    <!--<input class="btn btn-success" type="submit" value="修改">-->
+                      <fieldset>
 
-                 <!--</form>-->
-              <!--</div>-->
-         <!--</div>-->
+                          <div class="control-group">
 
-      <!--{% endif %}-->
+                              <div class="controls">
+                                  <label class="control-label">发布会名称:</label>
+                                  <label style="margin-left: 20px;">{{ form.name }}</label>
+                              </div>
+
+                          </div>
+
+                          <div class="control-group">
+
+                              <div class="controls">
+                                  <label class="control-label">发布会人数:</label>
+                                  <label style="margin-left: 20px;">{{ form.limit }}</label>
+                              </div>
+
+                          </div>
+
+                          <div class="control-group">
+
+                              <div class="controls">
+                                  <label class="control-label">发布会地址:</label>
+                                  <label style="margin-left: 20px;width: 200px;">{{ form.address }}</label>
+                              </div>
+
+                          </div>
+
+                          <div class="control-group">
+
+                              <div class="controls">
+                                  <label class="control-label">发布会状态:</label>
+                                  <label style="margin-left: 20px;">{{ form.status }}</label>
+                              </div>
+
+                          </div>
+
+                      </fieldset>
+
+                    <input class="btn btn-success" type="submit" value="修改">
+
+                  </form>
+
+              </div>
+
+              {% endif %}
+
+          </div>
+
+      </div>
 
 
       <!--编辑发布会-->
-      {% if type == "edit" %}
+      <!--{% if type == "edit" %}-->
 
-          <h3>修改发布会</h3>
+          <!--<form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post"-->
+                <!--action="/event_manage/edit_event/{{ pid }}/">-->
 
-          <form class="form-horizontal" style="margin-left:500px;margin-top: 160px;" method="post" action="/event_manage/edit_event/{{ pid }}/">
-              <fieldset>
-                  <div class="control-group">
-                      <div class="controls">
-                          <label class="control-label">名称</label>
-                          <textarea type="text" name='event_name' class="input-xlarge"
-                                    style="margin-left: 28px;width:300px;height: 30px;">{{ event_name }}</textarea>
-                          <span style="color:red">{{ event_name_error }}</span>
-                      </div>
-                  </div>
+              <!--<h3>修改发布会</h3>-->
 
-                  <div class="control-group"  style="margin-top: 20px;">
-                      <div class="controls">
-                          <label class="control-label">地址</label>
-                          <textarea type="text" name='event_address' class="input-xlarge"
-                                    style="margin-left: 28px;width:300px;height: 30px;">{{ event_address }}</textarea>
-                          <span style="color:red">{{ event_address_error }}</span>
-                      </div>
-                  </div>
+              <!--<fieldset>-->
+                  <!--<div class="control-group">-->
+                      <!--<div class="controls">-->
+                          <!--<label class="control-label">名称</label>-->
+                          <!--<textarea type="text" name='event_name' class="input-xlarge"-->
+                                    <!--style="margin-left: 28px;width:300px;height: 30px;">{{ event_name }}</textarea>-->
+                          <!--<span style="color:red">{{ event_name_error }}</span>-->
+                      <!--</div>-->
+                  <!--</div>-->
 
-                  <div class="control-group" style="margin-top: 20px;">
-                      <div class="controls">
-                          <label class="control-label">参加人数</label>
-                          <textarea type="text" name='event_limit' class="input-xlarge"
-                                    style="width:120px;height: 30px;">{{ event_limit }}</textarea>
-                          <span style="color:red">{{ event_limit_error }}</span>
-                      </div>
-                  </div>
+                  <!--<div class="control-group"  style="margin-top: 20px;">-->
+                      <!--<div class="controls">-->
+                          <!--<label class="control-label">地址</label>-->
+                          <!--<textarea type="text" name='event_address' class="input-xlarge"-->
+                                    <!--style="margin-left: 28px;width:300px;height: 30px;">{{ event_address }}</textarea>-->
+                          <!--<span style="color:red">{{ event_address_error }}</span>-->
+                      <!--</div>-->
+                  <!--</div>-->
+
+                  <!--<div class="control-group" style="margin-top: 20px;">-->
+                      <!--<div class="controls">-->
+                          <!--<label class="control-label">参加人数</label>-->
+                          <!--<textarea type="text" name='event_limit' class="input-xlarge"-->
+                                    <!--style="width:120px;height: 30px;">{{ event_limit }}</textarea>-->
+                          <!--<span style="color:red">{{ event_limit_error }}</span>-->
+                      <!--</div>-->
+                  <!--</div>-->
 
 
-                  <div class="control-group" style="margin-top: 20px;">
-                      <div class="controls" style="height:30px;">
-                          <label class="control-label" style="left: 40px;float: left">状态</label>
+                  <!--<div class="control-group" style="margin-top: 20px;">-->
+                      <!--<div class="controls" style="height:30px;">-->
+                          <!--<label class="control-label" style="left: 40px;float: left">状态</label>-->
 
-                          {% if event_status == True %}
-                              <label class="radio inline" style="left: 60px;float: left">
-                                    <input type="radio" value="1" checked="checked" name="event_status">开启
-                              </label>
-                              <label class="radio inline" style="left: 90px;float: left;">
-                                    <input type="radio" value="0" name="event_status">关闭
-                              </label>
-                          {% else %}
-                              <label class="radio inline" style="left: 60px;float: left">
-                                    <input type="radio" value="1" name="event_status">开启
-                              </label>
-                              <label class="radio inline" style="left: 90px;float: left;">
-                                    <input type="radio" value="0" checked=="checked" name="event_status">关闭
-                              </label>
-                          {% endif %}
+                          <!--{% if event_status == True %}-->
+                              <!--<label class="radio inline" style="left: 60px;float: left">-->
+                                    <!--<input type="radio" value="1" checked="checked" name="event_status">开启-->
+                              <!--</label>-->
+                              <!--<label class="radio inline" style="left: 90px;float: left;">-->
+                                    <!--<input type="radio" value="0" name="event_status">关闭-->
+                              <!--</label>-->
+                          <!--{% else %}-->
+                              <!--<label class="radio inline" style="left: 60px;float: left">-->
+                                    <!--<input type="radio" value="1" name="event_status">开启-->
+                              <!--</label>-->
+                              <!--<label class="radio inline" style="left: 90px;float: left;">-->
+                                    <!--<input type="radio" value="0" checked=="checked" name="event_status">关闭-->
+                              <!--</label>-->
+                          <!--{% endif %}-->
 
-                      </div>
-                  </div>
+                      <!--</div>-->
+                  <!--</div>-->
 
-                  <div class="control-group" style="margin-left:20px;margin-top:20px;">
-                      <div class="controls">
-                        <button class="btn btn-success">修改</button>
-                      </div>
-                  </div>
-              </fieldset>
-          </form>
+                  <!--<div class="control-group" style="margin-left:20px;margin-top:20px;">-->
+                      <!--<div class="controls">-->
+                        <!--<button class="btn btn-success">修改</button>-->
+                      <!--</div>-->
+                  <!--</div>-->
+              <!--</fieldset>-->
+          <!--</form>-->
 
-      {% endif %}
+      <!--{% endif %}-->
+
 
       <!--发布会分页器-->
       <div style="text-align: center;">
