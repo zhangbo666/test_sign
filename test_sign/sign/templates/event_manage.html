@@ -165,7 +165,10 @@
 
                   <div class="control-group" style="margin-left:20px;margin-top:20px;">
                       <div class="controls">
-                        <button class="btn btn-success">保存</button>
+                          <button class="btn btn-success">保存</button>
+                          <button onclick="this.form.action='/event_manage/';"
+                                  class="btn btn-info" style="margin-left:40px;">返回</button>
+                          <input type="reset" style="margin-left:40px;" class="btn btn-warning" value="重置">
                       </div>
                   </div>
               </fieldset>
@@ -228,8 +231,10 @@
 
                       </fieldset>
 
-                    <input class="btn btn-success" type="submit" value="修改">
-
+                      <input class="btn btn-success" type="submit" value="修改" style="margin-top: 20px;">
+                      <button onclick="this.form.action='/event_manage/';"
+                              class="btn btn-info" style="margin-left:40px;margin-top: 20px;">返回</button>
+                      <input type="reset" style="margin-left:40px;margin-top: 20px;" class="btn btn-warning" value="重置">
                   </form>
 
               </div>

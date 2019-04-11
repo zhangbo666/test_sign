@@ -138,7 +138,7 @@ def add_event(request):
 
         if event_name == "":
 
-            return render(request,"event_manage.html",{"type":"add","event_name":"发布会名称不能为空"})
+            return render(request,"event_manage.html",{"type":"add","reset":"reset","event_name":"发布会名称不能为空"})
 
         elif event_address == "":
 

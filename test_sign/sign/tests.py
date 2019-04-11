@@ -79,6 +79,7 @@ class LoginActionTest(TestCase):
 
 class EventManageTest(TestCase):
 
+    '''初始化数据库表数据和登录数据'''
     def setUp(self):
 
         User.objects.create_user('admin','admin@qq.com','admin123456')
@@ -89,16 +90,16 @@ class EventManageTest(TestCase):
 
         self.client.post('/login_action/',data=login_user)
 
+    '''测试添加发布会'''
     def test_add_event_data(self):
 
-        '''测试添加发布会'''
         event = Event.objects.get(name="xiaomi5")
 
         self.assertEqual(event.address,"beijing")
 
+    '''测试发布会'''
     def test_event_mange_success(self):
 
-        '''测试发布会'''
         response = self.client.post('/event_manage/')
 
         self.assertEqual(response.status_code,200)
@@ -107,9 +108,8 @@ class EventManageTest(TestCase):
 
         self.assertIn(b"beijing",response.content)
 
+    '''测试发布会搜索'''
     def test_event_mange_search_success(self):
-
-        '''测试发布会搜索'''
 
         response = self.client.get('/search_name/',{"name":"xiaomi5"})
 
@@ -122,6 +122,7 @@ class EventManageTest(TestCase):
 
 class GuestManageTest(TestCase):
 
+    '''初始化数据库表数据和登录数据'''
     def setUp(self):
 
         User.objects.create_user('admin','admin@qq.com','admin123456')
@@ -135,9 +136,9 @@ class GuestManageTest(TestCase):
 
         self.client.post('/login_action/',data=login_user)
 
+    '''测试添加嘉宾'''
     def test_add_guest_data(self):
 
-        '''测试添加嘉宾'''
         guest1 = Guest.objects.get(realname="zhangbo01")
         guest2 = Guest.objects.get(realname="zhangbo02")
 
@@ -149,9 +150,10 @@ class GuestManageTest(TestCase):
         self.assertEqual(guest2.email,"zhangbo02@qq.com")
         self.assertTrue(guest2.sign)
 
+    '''测试嘉宾信息'''
+
     def test_event_mange_success(self):
 
-        '''测试嘉宾信息'''
         response = self.client.post('/guest_manage/')
 
         self.assertEqual(response.status_code,200)
@@ -160,9 +162,8 @@ class GuestManageTest(TestCase):
 
         self.assertIn(b"18611220001",response.content)
 
+    '''测试嘉宾搜索'''
     def test_guest_mange_search_success(self):
-
-        '''测试嘉宾搜索'''
 
         response = self.client.post('/search_phone/',{"phone":"18611220001"})
 
@@ -175,6 +176,7 @@ class GuestManageTest(TestCase):
 
 class SignIndexActionTest(TestCase):
 
+    '''初始化数据库表数据和登录数据'''
     def setUp(self):
 
         User.objects.create_user('admin','admin@qq.com','admin123456')
@@ -189,9 +191,9 @@ class SignIndexActionTest(TestCase):
 
         self.client.post('/login_action/',data=login_user)
 
+    '''测试手机号为空或者输入错误'''
     def test_sign_index_action_phone_null(self):
 
-        '''测试手机号为空或者输入错误'''
         response1 = self.client.post('/sign_index_action/1/',{"phone":""})
         response2 = self.client.post('/sign_index_action/1/',{"phone":"18611220003"})
 
@@ -203,9 +205,9 @@ class SignIndexActionTest(TestCase):
 
         self.assertIn(b"phone error.",response2.content)
 
+    '''测试手机号或发布会id不匹配 '''
     def test_sign_index_action_phone_or_event_id_error(self):
 
-        '''测试手机号或发布会id不匹配 '''
         response1 = self.client.post('/sign_index_action/1/',{"phone":"18611220002"})
         response2 = self.client.post('/sign_index_action/2/',{"phone":"18611220001"})
 
@@ -217,18 +219,18 @@ class SignIndexActionTest(TestCase):
 
         self.assertIn(b"phone mismatch.",response2.content)
 
+    '''测试用户已签到'''
     def test_sign_index_action_user_sign_has(self):
 
-        '''测试用户已签到'''
         response1 = self.client.post('/sign_index_action/1/',{"phone":"18611220001"})
 
         self.assertEqual(response1.status_code,200)
 
         self.assertIn(b"user has sign in.",response1.content)
 
+    '''测试用户签到成功'''
     def test_sign_index_action_sign_success(self):
 
-        '''测试用户签到成功'''
         response1 = self.client.post('/sign_index_action/2/',{"phone":"18611220002"})
 
         self.assertEqual(response1.status_code,200)
