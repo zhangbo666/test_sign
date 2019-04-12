@@ -75,10 +75,21 @@
 
       <div style="margin-left: 110px;"><br>
 
-          <font color="red">
+          <font>
 
-              {{ error }}<br>
-              {{ sign_user.realname }}&nbsp;&nbsp;{{ sign_user.phone }}&nbsp;&nbsp;{{ sign_user.email }}
+              {% if error == "sign in success!" %}
+
+                  <span style="color: blue;">该用户签到成功，请查看资料，信息如下：</span><br>
+                  <span>用户姓名为：{{ sign_user.realname }}</span><br>
+                  <span>用户手机号为：{{ sign_user.phone }}</span><br>
+                  <span>用户邮箱为：{{ sign_user.email }}</span><br>
+
+              {% elif error == "phone error." or error == "phone mismatch." or error == "user has sign in." %}
+
+                  <span style="color: red;">该用户签到失败，请查看原因，信息如下：</span><br>
+                  <span style="color: red;">{{ error }}</span><br>
+
+              {% endif %}
 
           </font>
 
