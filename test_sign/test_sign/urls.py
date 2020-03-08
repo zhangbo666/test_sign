@@ -40,6 +40,7 @@ urlpatterns = [
     path('sign_index/<int:event_id>/',views.sign_index),
     path('sign_index_action/<int:event_id>/',views.sign_index_action),
 
+    #接口
     path('api/',include('sign.urls')),
 
 ]
