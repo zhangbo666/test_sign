@@ -40,7 +40,6 @@ forms django表单
 
            name = form.cleaned_data['name']
 
-
            describe = form.cleaned_data['describe']
 
            status   = form.cleaned_data['status']

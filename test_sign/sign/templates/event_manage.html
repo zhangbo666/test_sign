@@ -72,45 +72,46 @@
                       <thead>
 
                           <tr>
-                              <th style="text-align:center;vertical-align: middle">id</th>
-                              <th style="text-align:center;vertical-align: middle">名称</th>
-                              <th style="text-align:center;vertical-align: middle">地址</th>
-                              <th style="text-align:center;vertical-align: middle">状态</th>
-                              <th style="text-align:center;vertical-align: middle">时间</th>
-                              <th style="text-align:center;vertical-align: middle">签到</th>
-                              <th style="align:le">操作</th>
+                              <th style="text-align: center;vertical-align: middle">id</th>
+                              <th style="text-align: center;vertical-align: middle">名称</th>
+                              <th style="text-align: center;vertical-align: middle">地址</th>
+                              <th style="text-align: center;vertical-align: middle">状态</th>
+                              <th style="text-align: center;vertical-align: middle">时间</th>
+                              <th style="text-align: center;vertical-align: middle">签到</th>
+                              <th style="text-align: center;vertical-align: middle">操作</th>
                           </tr>
                       </thead>
 
                       <tbody>
 
                           {% for event in events %}
-                          <tr>
+                              <tr>
 
-                              <td>{{ event.id}}</td>
-                              <td>{{ event.name}}</td>
-                              <td>{{ event.address}}</td>
-                              <td>{% if event.status == True %}
+                                  <td>{{ event.id}}</td>
+                                  <td>{{ event.name}}</td>
+                                  <td>{{ event.address}}</td>
+                                  <td>{% if event.status == True %}
 
-                                  <span>开启</span>
+                                      <span>开启</span>
 
-                                  {% elif event.status == False %}
+                                      {% elif event.status == False %}
 
-                                  <span>禁用</span>
+                                      <span>禁用</span>
 
-                                  {% endif %}
-                              </td>
-                              <td>{{ event.start_time | date:"Y-m-d H:i:s" }}</td>
-                              <td><a href="/sign_index/{{ event.id }}/" target="{{ event.id }}_blank">sign</a></td>
-                              <td>
-                                  <a href="/event_manage/edit_event/{{ event.id }}/">
-                                      <i class="glyphicon glyphicon-pencil">编辑</i>
-                                  </a>
-                                  <a href="#" style="margin-left:20px;">
-                                      <i class="glyphicon glyphicon-trash">删除</i>
-                                  </a>
-                              </td>
-                          </tr>
+                                      {% endif %}
+
+                                  </td>
+                                  <td>{{ event.start_time | date:"Y-m-d H:i:s" }}</td>
+                                  <td><a href="/sign_index/{{ event.id }}/" target="{{ event.id }}_blank">sign</a></td>
+                                  <td>
+                                      <a href="/event_manage/edit_event/{{ event.id }}/">
+                                          <i class="glyphicon glyphicon-pencil">编辑</i>
+                                      </a>
+                                      <a href="#" style="margin-left:20px;">
+                                          <i class="glyphicon glyphicon-trash">删除</i>
+                                      </a>
+                                  </td>
+                              </tr>
                           {% endfor %}
                       </tbody>
                   </table>
@@ -372,76 +373,76 @@
       <!--按钮分页器-->
       {% if search_result == "result_data" %}
 
-      <div class="container" style="text-align: center;">
+          <div class="container" style="text-align: center;">
 
-          <div class="pagination">
-
-              {% if events.has_previous %}
-
-                  {% if name %}
-
-                      <li><a href="?name={{ name }}&page={{ events.previous_page_number}}">&laquo;</a></li>
-
-                      <li><a href="?name={{ name }}&page={{ events.previous_page_number}}">{{ events.previous_page_number}}</a></li>
-
-                  {% else %}
-
-                      <li><a href="?page={{ events.previous_page_number}}">&laquo;</a></li>
-
-                      <li><a href="?page={{ events.previous_page_number}}">{{ events.previous_page_number}}</a></li>
-
-                  {% endif %}
-
-              {% endif %}
-
-              {% if events %}
+              <div class="pagination">
 
                   {% if events.has_previous %}
 
-                      <li class="active"><a href="?name={{ name }}&page={{ events.number}}">{{ events.number}}</a></li>
-
-                  {% else %}
-
                       {% if name %}
 
-                          <li class="disabled"><a href="#">&laquo;</a></li>
+                          <li><a href="?name={{ name }}&page={{ events.previous_page_number}}">&laquo;</a></li>
 
-                          <li class="active"><a href="?name={{ name }}&page={{ events.number}}">{{ events.number}}</a></li>
+                          <li><a href="?name={{ name }}&page={{ events.previous_page_number}}">{{ events.previous_page_number}}</a></li>
 
                       {% else %}
 
-                          <li class="disabled"><a href="#">&laquo;</a></li>
+                          <li><a href="?page={{ events.previous_page_number}}">&laquo;</a></li>
 
-                          <li class="active"><a href="?page={{ events.number}}">{{ events.number}}</a></li>
+                          <li><a href="?page={{ events.previous_page_number}}">{{ events.previous_page_number}}</a></li>
 
                       {% endif %}
 
                   {% endif %}
 
-              {% endif %}
+                  {% if events %}
 
-              {% if events.has_next %}
+                      {% if events.has_previous %}
 
-                  {% if name %}
+                          <li class="active"><a href="?name={{ name }}&page={{ events.number}}">{{ events.number}}</a></li>
 
-                      <li><a href="?name={{ name }}&page={{ events.next_page_number}}">{{ events.next_page_number}}</a></li>
+                      {% else %}
 
-                      <li><a href="?name={{ name }}&page={{ events.next_page_number}}">&raquo;</a></li>
+                          {% if name %}
 
-                  {% else %}
+                              <li class="disabled"><a href="#">&laquo;</a></li>
 
-                      <li><a href="?page={{ events.next_page_number}}">{{ events.next_page_number}}</a></li>
+                              <li class="active"><a href="?name={{ name }}&page={{ events.number}}">{{ events.number}}</a></li>
 
-                      <li><a href="?page={{ events.next_page_number}}">&raquo;</a></li>
+                          {% else %}
+
+                              <li class="disabled"><a href="#">&laquo;</a></li>
+
+                              <li class="active"><a href="?page={{ events.number}}">{{ events.number}}</a></li>
+
+                          {% endif %}
+
+                      {% endif %}
 
                   {% endif %}
 
-              {% else %}
+                  {% if events.has_next %}
 
-                  <li class="disabled"><a href="#">&raquo;</a></li>
+                      {% if name %}
 
-              {% endif %}
-      </div>
+                          <li><a href="?name={{ name }}&page={{ events.next_page_number}}">{{ events.next_page_number}}</a></li>
+
+                          <li><a href="?name={{ name }}&page={{ events.next_page_number}}">&raquo;</a></li>
+
+                      {% else %}
+
+                          <li><a href="?page={{ events.next_page_number}}">{{ events.next_page_number}}</a></li>
+
+                          <li><a href="?page={{ events.next_page_number}}">&raquo;</a></li>
+
+                      {% endif %}
+
+                  {% else %}
+
+                      <li class="disabled"><a href="#">&raquo;</a></li>
+
+                  {% endif %}
+          </div>
 
       {% endif %}
 

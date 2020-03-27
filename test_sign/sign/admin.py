@@ -13,7 +13,6 @@ class EvendAdmin(admin.ModelAdmin):
 
     list_filter = ['status']
 
-    # pass
 
 class GuestAdmin(admin.ModelAdmin):
 
@@ -23,7 +22,6 @@ class GuestAdmin(admin.ModelAdmin):
 
     list_filter = ['sign']
 
-    # pass
 
 
 admin.site.register(Event,EvendAdmin)

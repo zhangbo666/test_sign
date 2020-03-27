@@ -89,7 +89,6 @@ def search_name(request):
 
     events = Event.objects.filter(name__contains=search_name).order_by('id') #按照id升序
 
-
     if len(events) == 0:
 
         return render(request,"event_manage.html",{"user":username,"type":"list",
@@ -151,7 +150,7 @@ def add_event(request):
         else:
 
             Event.objects.create(name=event_name,address=event_address,status=event_status,limit=event_limit,
-                                 start_time=datetime(2019,4,3,00,10,00))
+                                 start_time=datetime(2020,4,3,00,10,00))
 
             return HttpResponseRedirect("/event_manage/")
 
@@ -332,8 +331,6 @@ def guest_manage(request):
     # 传一个页面数据get参数的值
     page = request.GET.get('page')
 
-    print (page)
-
     try:
 
         contacts = paginator.page(page)
@@ -418,8 +415,9 @@ def add_guest(request):
 
         event_name = request.POST.get("event_name","")
 
-        event_id   = Event.objects.get(name=event_name)
+        event_id = Event.objects.get(name=event_name)
 
+        #发布会id
         event_id   = event_id.id
 
         if guest_name == "":
@@ -444,7 +442,7 @@ def add_guest(request):
         else:
 
             Guest.objects.create(realname=guest_name,phone=guest_phone,email=guest_email,
-                                 sign=guest_status,event_id=event_id,create_time=datetime(2019,4,9,1,10,00))
+                                 sign=guest_status,event_id=event_id,create_time=datetime(2020,3,7,1,10,00))
 
             return HttpResponseRedirect("/guest_manage/")
 
@@ -514,7 +512,7 @@ def sign_index(request,event_id):
 
     guest_list = len(guest_list)
 
-    sign_list = Guest.objects.filter(sign="1",event_id = event_id) # 某个发布会的签到完成人数
+    sign_list = Guest.objects.filter(sign="1",event_id = event_id) #某个发布会的签到完成人数
 
     sign_list = len(sign_list)
 
@@ -533,7 +531,7 @@ def sign_index_action(request,event_id):
 
     guest_list = len(guest_list)
 
-    sign_list = Guest.objects.filter(sign="1",event_id = event_id) # 某个发布会的签到完成人数
+    sign_list = Guest.objects.filter(sign="1",event_id = event_id) #某个发布会的签到完成人数
 
     sign_list = len(sign_list)
 
@@ -583,7 +581,7 @@ def sign_index_action(request,event_id):
                                                  'error':'sign in success!',
                                                  'guest_list':guest_list,
                                                  'sign_list':sign_list,
-                                                 'sign_user':result,})
+                                                 'sign_user':result})
 
 
 
